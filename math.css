@@ -1,0 +1,41 @@
+/* Уроци по математика – Даниела Петрова */
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1c2333;--muted:#5a6477;--line:#dfe3ea;--accent:#4f46e5}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;
+  background-image:linear-gradient(rgba(79,70,229,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(79,70,229,.05) 1px,transparent 1px);
+  background-size:28px 28px}
+a{color:inherit}
+.m-head{text-align:center;padding:clamp(44px,8vw,88px) 16px 8px}
+.m-kick{display:inline-block;margin:0 0 14px;padding:4px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:.82rem;font-weight:600}
+h1{margin:0;font-size:clamp(1.8rem,4.6vw,2.8rem);font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.m-lead{max-width:640px;margin:14px auto 0;color:var(--muted);font-size:1.02rem}
+main{flex:1;width:100%;max-width:1040px;margin:0 auto;padding:36px 16px 56px}
+.m-about{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;padding:26px;border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:0 6px 20px rgba(16,24,40,.05)}
+.m-avatar{width:92px;height:92px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4f46e5,#0ea5e9);color:#fff;font-size:2rem;font-weight:800}
+.m-about h2{margin:0 0 6px;font-size:1.3rem}
+.m-about p{margin:0;color:var(--muted)}
+.m-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;margin:22px 0 40px}
+.m-fact{padding:18px 20px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.m-fact b{display:block;font-size:1rem;margin-bottom:4px}
+.m-fact span{color:var(--muted);font-size:.92rem}
+.m-fact .ico{font-size:1.5rem;display:block;margin-bottom:6px}
+.m-section{margin:0 0 18px;font-size:1.4rem;letter-spacing:-.01em}
+.m-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:20px}
+.m-card{--c:#4f46e5;display:flex;flex-direction:column;gap:10px;padding:26px 24px;border-radius:18px;background:var(--card);border:1px solid var(--line);
+  text-decoration:none;color:var(--ink);transition:transform .18s,box-shadow .18s,border-color .18s;border-top:5px solid var(--c)}
+.m-card:hover,.m-card:focus-visible{transform:translateY(-3px);border-color:var(--c);box-shadow:0 18px 40px rgba(16,24,40,.12);outline:none}
+.m-num{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:16px;background:var(--c);color:#fff;font-size:1.5rem;font-weight:800}
+.m-card h3{margin:6px 0 0;font-size:1.3rem}
+.m-card p{margin:0;color:var(--muted);font-size:.93rem}
+.m-card ul{margin:2px 0 0;padding-left:1.1em;color:#3b4558;font-size:.9rem}
+.m-go{margin-top:auto;padding-top:10px;color:var(--c);font-weight:700}
+.c8{--c:#0f766e}.c9{--c:#2563eb}.c11{--c:#7c3aed}.cg{--c:#db2777}
+.m-quote{margin:44px auto 0;max-width:720px;text-align:center;color:var(--muted);font-style:italic}
+.m-quote cite{display:block;margin-top:6px;font-style:normal;font-weight:600;font-size:.9rem}
+.m-back{display:inline-block;margin-bottom:20px;color:var(--accent);font-weight:600;text-decoration:none}
+.m-soon{padding:40px 26px;text-align:center;border-radius:18px;background:var(--card);border:1px dashed var(--line);color:var(--muted)}
+footer{border-top:1px solid var(--line);background:#fff;padding:22px 16px;text-align:center;color:var(--muted);font-size:.88rem}
+@media (max-width:560px){.m-about{grid-template-columns:1fr;text-align:center}.m-avatar{margin:0 auto}}
+.m-grid-fill{grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr))}
