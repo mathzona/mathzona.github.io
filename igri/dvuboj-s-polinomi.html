@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Двубой с полиноми</title>
 <style>
-:root{--bd:#1d3a33;--bd2:#27493f;--chalk:#f4f1e8;--mute:#a9bdb4;--p0:#ffd84d;--p1:#ff8fb1;--ok:#6fe3a0;--bad:#ff7a7a;--line:#4b6b60}
+:root{--bd:#1d3a33;--bd2:#27493f;--chalk:#f4f1e8;--mute:#a9bdb4;--p0:#ffd84d;--p1:#ff8fb1;--p2:#8fd3ff;--ok:#6fe3a0;--bad:#ff7a7a;--line:#4b6b60}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:var(--bd);color:var(--chalk);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
 background-image:radial-gradient(ellipse at 30% 0,#2a5246 0,transparent 60%)}
@@ -19,14 +19,16 @@ label{font-weight:700}
 button{font:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .btn{background:var(--chalk);color:var(--bd);border:0;border-radius:10px;padding:13px 22px;font-weight:800;font-size:17px}
 .btn:focus-visible,.opt:focus-visible{outline:3px solid var(--p0);outline-offset:2px}
-.score{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.score{display:grid;grid-template-columns:repeat(var(--k,2),minmax(0,1fr));gap:10px;margin-bottom:12px}
 .pl{border:3px solid var(--line);border-radius:12px;padding:8px 12px;text-align:center;opacity:.65}
 .pl.on{opacity:1}
 .pl b{display:block;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pl span{font-size:30px;font-weight:800}
 #pl0{color:var(--p0)}#pl0.on{border-color:var(--p0)}
 #pl1{color:var(--p1)}#pl1.on{border-color:var(--p1)}
-.tug{height:14px;border-radius:8px;overflow:hidden;display:flex;margin:10px 0 12px;border:2px solid var(--line)}
+#pl2{color:var(--p2)}#pl2.on{border-color:var(--p2)}
+.tug{height:14px;border-radius:8px;overflow:hidden;display:flex;margin:-2px 0 12px;border:2px solid var(--line)}
+.tug.hidden{display:none}
 .tug i{display:block;transition:width .4s}
 #t0{background:var(--p0)}#t1{background:var(--p1)}
 .turn{font-size:18px;font-weight:800;margin:0 0 6px}
@@ -54,7 +56,7 @@ sup{font-size:.62em;line-height:0}
 .report{background:#fff;color:#1b1b1b;border-radius:12px;padding:18px;margin:14px 0;text-align:left;font-family:"Segoe UI",Arial,sans-serif}
 .report h2{margin:0 0 4px;font-size:22px;color:#1d3a33}
 .report .meta{color:#555;font-size:13px;margin:0 0 12px}
-.report .tot{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.report .tot{display:grid;grid-template-columns:repeat(var(--k,2),minmax(0,1fr));gap:10px;margin-bottom:12px}
 .report .tot div{border:2px solid #1d3a33;border-radius:10px;padding:8px;text-align:center}
 .report .tot b{display:block;font-size:15px;word-break:break-word}
 .report .tot span{font-size:26px;font-weight:800}
@@ -75,6 +77,7 @@ sup{font-size:.62em;line-height:0}
 .report.pdfmode .rwrap{overflow:visible}
 .ebtns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:6px}
 .btn.alt{background:transparent;color:var(--chalk);border:2px solid var(--chalk)}
+#add3{margin:0 0 14px;padding:10px 18px;font-size:16px}
 @media print{body{background:#fff}body *{visibility:hidden}#report,#report *{visibility:visible}#report{position:absolute;left:0;top:0;width:100%;margin:0}.rwrap{overflow:visible}}
 @media (max-width:420px){main{padding:8px}.panel{padding:12px}.opt{font-size:18px}}
 </style>
@@ -87,25 +90,28 @@ sup{font-size:.62em;line-height:0}
 </nav>
 <section class="panel" id="setup">
  <h1>Двубой с полиноми</h1>
- <p>Игра за двама на едно устройство: Безу, схема на Хорнер и нули на полиноми. Задачите стават по-трудни към края.</p>
+ <p>Игра за двама или трима на едно устройство: Безу, схема на Хорнер и нули на полиноми. Задачите стават по-трудни към края.</p>
  <ul class="rules">
-  <li>Играчите отговарят на задачи на смени, общо 20 задачи.</li>
+  <li>Играчите отговарят на задачи на смени: 20 задачи при двама играчи, 21 при трима (по 7 на всеки).</li>
   <li>Верен отговор на твоя ред носи 2 точки.</li>
-  <li>След теб противникът отговаря на същата задача, без да вижда твоя отговор. Верен отговор му носи 1 точка.</li>
-  <li>Кое е правилно и кое грешно, се показва едва след като отговорят и двамата.</li>
-  <li>Печели този, който има повече точки накрая.</li>
+  <li>След теб останалите отговарят на същата задача, без да виждат отговорите. Верен отговор им носи 1 точка.</li>
+  <li>Кое е правилно и кое грешно, се показва едва след като отговорят всички.</li>
+  <li>Печели този, който има най-много точки накрая.</li>
  </ul>
  <label for="n0">Играч 1</label><input id="n0" maxlength="14" placeholder="Име" autocomplete="off">
  <label for="n1">Играч 2</label><input id="n1" maxlength="14" placeholder="Име" autocomplete="off">
+ <div id="p3" class="hidden"><label for="n2">Играч 3</label><input id="n2" maxlength="14" placeholder="Име" autocomplete="off"></div>
+ <div class="mid"><button class="btn alt" id="add3" type="button">+ Добави трети играч</button></div>
  <div class="mid"><button class="btn" id="go">Започни двубоя</button></div>
 </section>
 
 <section class="hidden" id="game">
- <div class="score">
+ <div class="score" id="score">
   <div class="pl on" id="pl0"><b id="nm0"></b><span id="sc0">0</span></div>
   <div class="pl" id="pl1"><b id="nm1"></b><span id="sc1">0</span></div>
+  <div class="pl hidden" id="pl2"><b id="nm2"></b><span id="sc2">0</span></div>
  </div>
- <div class="tug" aria-hidden="true"><i id="t0" style="width:50%"></i><i id="t1" style="width:50%"></i></div>
+ <div class="tug" id="tug" aria-hidden="true"><i id="t0" style="width:50%"></i><i id="t1" style="width:50%"></i></div>
  <div class="panel">
   <p class="turn" id="turn"></p>
   <p class="task" id="task"></p>
@@ -247,24 +253,32 @@ function gen(r){
 // Връзка към Google Apps Script (уеб приложение), което праща PDF-а на учителя.
 // Докато е празна, бутонът „Изпрати на учителя“ не се показва.
 const TEACHER_URL='https://script.google.com/macros/s/AKfycbyiG7NDZZKULsHwE1he0khXmAkgyh6KOvcNoPtvl9WV48x6E9t6PcPKxK6VQeA1gfuXNA/exec';
-const N=20;
-const G={names:['',''],sc:[0,0],round:0,q:null,phase:'',asker:0,wrong:null,log:[],t0:null};
+let N=20;
+const G={k:2,names:[],sc:[],round:0,q:null,asker:0,order:[],step:0,pick:[],log:[],t0:null};
+const COL=['var(--p0)','var(--p1)','var(--p2)'];
+const all=()=>[...Array(G.k).keys()];
+function winners(){const b=Math.max(...G.sc);return all().filter(i=>G.sc[i]===b)}
+function winText(){const w=winners();return w.length===G.k?'Равен резултат!':w.length>1?'Равен резултат: '+w.map(nm).join(' и '):'Победител: '+nm(w[0])}
+const scoreText=sep=>all().map(i=>`${nm(i)}: ${G.sc[i]} т.`).join(sep);
 const show=id=>['setup','game','end'].forEach(s=>$(s).classList.toggle('hidden',s!==id));
 const nm=i=>G.names[i];
 
 function scoreUI(){
-  $('sc0').textContent=G.sc[0];$('sc1').textContent=G.sc[1];
-  $('nm0').textContent=nm(0);$('nm1').textContent=nm(1);
+  for(let i=0;i<3;i++){const on=i<G.k;$('pl'+i).classList.toggle('hidden',!on);
+    if(on){$('sc'+i).textContent=G.sc[i];$('nm'+i).textContent=nm(i)}}
+  $('score').style.setProperty('--k',G.k);
+  $('tug').classList.toggle('hidden',G.k!==2);if(G.k!==2)return;
   const d=Math.max(-5,Math.min(5,G.sc[0]-G.sc[1]));const w=50+d*7;
   $('t0').style.width=w+'%';$('t1').style.width=(100-w)+'%';
 }
 function turnUI(who,txt){
-  $('pl0').classList.toggle('on',who===0);$('pl1').classList.toggle('on',who===1);
-  const t=$('turn');t.textContent=txt;t.style.color=who===0?'var(--p0)':who===1?'var(--p1)':'var(--chalk)';
+  for(let i=0;i<3;i++)$('pl'+i).classList.toggle('on',who===i);
+  const t=$('turn');t.textContent=txt;t.style.color=COL[who]||'var(--chalk)';
 }
 function start(){
-  G.names=[$('n0').value.trim()||'Играч 1',$('n1').value.trim()||'Играч 2'];
-  G.sc=[0,0];G.round=0;G.log=[];G.t0=new Date();show('game');nextQ();
+  G.k=$('p3').classList.contains('hidden')?2:3;N=G.k===3?21:20;
+  G.names=all().map(i=>$('n'+i).value.trim()||'Играч '+(i+1));
+  G.sc=all().map(()=>0);G.round=0;G.log=[];G.t0=new Date();show('game');nextQ();
 }
 function renderOpts(list){
   const o=$('opts');o.innerHTML='';
@@ -272,7 +286,8 @@ function renderOpts(list){
 }
 function nextQ(){
   if(G.round>=N)return finish();
-  const q=G.q=gen(G.round);G.asker=G.round%2;G.phase='ask';G.pick=[null,null];
+  const q=G.q=gen(G.round);G.asker=G.round%G.k;
+  G.order=all().map(j=>(G.asker+j)%G.k);G.step=0;G.pick=all().map(()=>null);
   scoreUI();turnUI(G.asker,`Ред на ${nm(G.asker)}`);
   $('rd').textContent=`Задача ${G.round+1} от ${N}`;
   $('task').textContent=q.task;
@@ -286,41 +301,36 @@ function hornerTable({c,a,b,j}){
   '</tr><tr><td class="l">долен ред</td>'+b.map((v,i)=>i===j?'<td class="q">?</td>':'<td>'+M(v)+'</td>').join('')+'</tr></table>';
 }
 function answer(v){
-  const q=G.q,o=1-G.asker;
-  if(G.phase==='ask'){
-    G.pick[G.asker]=v;G.phase='second';
-    turnUI(o,`${nm(o)}, сега отговаряш ти`);
-    renderOpts(shuffle([...q.opts]));
-    const fb=$('fb');fb.className='fb';
-    fb.textContent=`${nm(G.asker)} отговори. Верният отговор ще се покаже, след като отговориш и ти.`;
-  }else if(G.phase==='second'){
-    G.pick[o]=v;G.phase='done';reveal();
-  }
+  const q=G.q;if(G.step>=G.k)return;
+  G.pick[G.order[G.step]]=v;G.step++;
+  if(G.step>=G.k)return reveal();
+  const nx=G.order[G.step],done=G.order.slice(0,G.step).map(nm);
+  turnUI(nx,`${nm(nx)}, сега отговаряш ти`);
+  renderOpts(shuffle([...q.opts]));
+  const fb=$('fb');fb.className='fb';
+  fb.textContent=`${done.join(' и ')} ${done.length>1?'отговориха':'отговори'}. Верният отговор ще се покаже, след като ${G.step===G.k-1?'отговориш и ти':'отговорят всички'}.`;
 }
 function reveal(){
-  const q=G.q,a=G.asker,o=1-a,fb=$('fb');
-  const okA=G.pick[a]===q.ans,okO=G.pick[o]===q.ans;
-  if(okA)G.sc[a]+=2;
-  if(okO)G.sc[o]+=1;
-  const pts=[0,0];pts[a]=okA?2:0;pts[o]=okO?1:0;
+  const q=G.q,a=G.asker,fb=$('fb');
+  const pts=G.pick.map((p,i)=>p===q.ans?(i===a?2:1):0);
+  pts.forEach((p,i)=>G.sc[i]+=p);
   G.log.push({n:G.round+1,task:q.task,poly:$('poly').textContent,ans:q.ans,asker:a,pick:[...G.pick],pts});
   document.querySelectorAll('.opt').forEach(b=>{
     b.disabled=true;const v=+b.dataset.v;
     if(v===q.ans)b.classList.add('ok');
-    else if(v===G.pick[a]||v===G.pick[o])b.classList.add('bad');
+    else if(G.pick.includes(v))b.classList.add('bad');
   });
-  const line=(i,ok,pts)=>`${nm(i)}: ${M(G.pick[i])} ${ok?'✓ (+'+pts+')':'✗'}`;
-  fb.className='fb '+(okA||okO?'good':'wrong');
-  fb.innerHTML=`<b>Верният отговор е ${M(q.ans)}.</b><br>${line(a,okA,2)}<br>${line(o,okO,1)}<br>${q.why}`;
+  const line=i=>`${esc(nm(i))}: ${M(G.pick[i])} ${pts[i]?'✓ (+'+pts[i]+')':'✗'}`;
+  fb.className='fb '+(pts.some(p=>p)?'good':'wrong');
+  fb.innerHTML=`<b>Верният отговор е ${M(q.ans)}.</b><br>${G.order.map(line).join('<br>')}<br>${q.why}`;
   scoreUI();turnUI(-1,'Резултат от задачата');G.round++;
   $('next').textContent=G.round>=N?'Виж резултата':'Следваща задача';
   $('nx').classList.remove('hidden');$('next').focus();
 }
 function finish(){
   show('end');
-  const [a,b]=G.sc;
-  $('win').textContent=a===b?'Равен резултат!':`Победител: ${nm(a>b?0:1)}`;
-  $('fin').textContent=`${nm(0)}: ${a} т. | ${nm(1)}: ${b} т.`;
+  $('win').textContent=winText();
+  $('fin').textContent=scoreText(' | ');
   buildReport();
   $('pmsg').textContent='';
   $('share').classList.toggle('hidden',!canShareFiles());
@@ -328,25 +338,24 @@ function finish(){
 }
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function buildReport(){
-  const [a,b]=G.sc,d=G.t0||new Date();
+  const d=G.t0||new Date(),w=winners(),hl=i=>w.length<G.k&&w.includes(i)?'w':'';
   const date=d.toLocaleDateString('bg-BG')+' '+d.toLocaleTimeString('bg-BG',{hour:'2-digit',minute:'2-digit'});
   const cnt=i=>G.log.filter(r=>r.pick[i]===r.ans).length;
   const cell=(r,i)=>{const ok=r.pick[i]===r.ans;
     return `<td class="c"><span class="${ok?'ok':'bad'}">${M(r.pick[i])} ${ok?'✓':'✗'}</span><br>${r.pts[i]} т.${r.asker===i?'<br><span class="st">на ред</span>':''}</td>`};
-  const rows=G.log.map(r=>`<tr><td class="c">${r.n}</td><td>${esc(r.task)}<span class="pz">${esc(r.poly)}</span></td><td class="c"><b>${M(r.ans)}</b></td>${cell(r,0)}${cell(r,1)}</tr>`).join('');
+  const rows=G.log.map(r=>`<tr><td class="c">${r.n}</td><td>${esc(r.task)}<span class="pz">${esc(r.poly)}</span></td><td class="c"><b>${M(r.ans)}</b></td>${all().map(i=>cell(r,i)).join('')}</tr>`).join('');
   $('report').innerHTML=`<h2>Двубой с полиноми – резултати</h2>
   <p class="meta">Мат Зона · ${esc(date)} · ${G.log.length} задачи</p>
-  <div class="tot"><div class="${a>b?'w':''}"><b>${esc(nm(0))}</b><span>${a} т.</span><br>${cnt(0)} верни от ${G.log.length}</div>
-  <div class="${b>a?'w':''}"><b>${esc(nm(1))}</b><span>${b} т.</span><br>${cnt(1)} верни от ${G.log.length}</div></div>
-  <p class="win">${a===b?'Равен резултат!':'Победител: '+esc(nm(a>b?0:1))}</p>
-  <div class="rwrap"><table class="rt"><thead><tr><th>№</th><th>Задача</th><th>Верен отговор</th><th>${esc(nm(0))}</th><th>${esc(nm(1))}</th></tr></thead>
-  <tbody>${rows}</tbody><tfoot><tr><td colspan="3">Общо точки</td><td class="c">${a} т.</td><td class="c">${b} т.</td></tr></tfoot></table></div>
-  <p class="note">Точкуване: верен отговор на твоя ред („на ред“) – 2 т.; верен отговор на задача на противника – 1 т.</p>`;
+  <div class="tot" style="--k:${G.k}">${all().map(i=>`<div class="${hl(i)}"><b>${esc(nm(i))}</b><span>${G.sc[i]} т.</span><br>${cnt(i)} верни от ${G.log.length}</div>`).join('')}</div>
+  <p class="win">${esc(winText())}</p>
+  <div class="rwrap"><table class="rt"><thead><tr><th>№</th><th>Задача</th><th>Верен отговор</th>${all().map(i=>`<th>${esc(nm(i))}</th>`).join('')}</tr></thead>
+  <tbody>${rows}</tbody><tfoot><tr><td colspan="3">Общо точки</td>${all().map(i=>`<td class="c">${G.sc[i]} т.</td>`).join('')}</tr></tfoot></table></div>
+  <p class="note">Точкуване: верен отговор на твоя ред („на ред“) – 2 т.; верен отговор на задача на друг играч – 1 т.</p>`;
 }
 function pdfName(){
   const d=G.t0||new Date(),z=n=>String(n).padStart(2,'0');
   const clean=t=>t.replace(/[\\/:*?"<>|\s]+/g,'_');
-  return `dvuboj-${clean(nm(0))}-${clean(nm(1))}-${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}.pdf`;
+  return `dvuboj-${all().map(i=>clean(nm(i))).join('-')}-${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}.pdf`;
 }
 let libP=null;
 function loadLib(){
@@ -384,7 +393,7 @@ async function sharePdf(){
   const m=$('pmsg'),btn=$('share');btn.disabled=true;m.textContent='Подготовка за изпращане…';
   try{
     const blob=await makePdf(),file=new File([blob],pdfName(),{type:'application/pdf'});
-    await navigator.share({files:[file],title:'Двубой с полиноми – резултати',text:`${nm(0)}: ${G.sc[0]} т. | ${nm(1)}: ${G.sc[1]} т.`});
+    await navigator.share({files:[file],title:'Двубой с полиноми – резултати',text:scoreText(' | ')});
     m.textContent='';
   }catch(e){
     m.textContent=e&&e.name==='AbortError'?'':'Изпращането не успя. Запазете PDF файла и го изпратете ръчно.';
@@ -413,8 +422,8 @@ async function sendTeacher(){
     stage='връзка';
     // Праща се като обикновена HTML форма в скрит iframe: формите не се спират от CORS.
     await postForm(TEACHER_URL,JSON.stringify({filename:pdfName(),pdf,
-        subject:`Двубой с полиноми: ${nm(0)} ${G.sc[0]} т. – ${nm(1)} ${G.sc[1]} т.`,
-        text:`${nm(0)}: ${G.sc[0]} т.\n${nm(1)}: ${G.sc[1]} т.\n${G.sc[0]===G.sc[1]?'Равен резултат':'Победител: '+nm(G.sc[0]>G.sc[1]?0:1)}\n\nПодробните отговори са в прикачения PDF.`}));
+        subject:'Двубой с полиноми: '+all().map(i=>`${nm(i)} ${G.sc[i]} т.`).join(' – '),
+        text:`${scoreText('\n')}\n${winText()}\n\nПодробните отговори са в прикачения PDF.`}));
     m.textContent='Резултатите са изпратени на учителя ✓';
     btn.textContent='Изпратено ✓';
   }catch(e){
@@ -424,6 +433,8 @@ async function sendTeacher(){
 }
 $('teach').onclick=sendTeacher;
 $('go').onclick=start;
+$('add3').onclick=()=>{const h=!$('p3').classList.toggle('hidden');
+  $('add3').textContent=h?'− Махни третия играч':'+ Добави трети играч';if(h)$('n2').focus()};
 $('next').onclick=nextQ;
 $('again').onclick=()=>{$('teach').textContent='Изпрати на учителя';show('setup')};
 </script>
