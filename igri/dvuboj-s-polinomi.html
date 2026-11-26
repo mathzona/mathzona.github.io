@@ -399,14 +399,11 @@ async function sendTeacher(){
   try{
     const pdf=await toB64(await makePdf());
     stage='връзка';
-    const res=await fetch(TEACHER_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+    // no-cors: браузърът не чете отговора на Google, затова не спира заявката заради CORS.
+    await fetch(TEACHER_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
       body:JSON.stringify({filename:pdfName(),pdf,
         subject:`Двубой с полиноми: ${nm(0)} ${G.sc[0]} т. – ${nm(1)} ${G.sc[1]} т.`,
         text:`${nm(0)}: ${G.sc[0]} т.\n${nm(1)}: ${G.sc[1]} т.\n${G.sc[0]===G.sc[1]?'Равен резултат':'Победител: '+nm(G.sc[0]>G.sc[1]?0:1)}\n\nПодробните отговори са в прикачения PDF.`})});
-    stage='отговор '+res.status;
-    const j=await res.json();
-    stage='скрипт';
-    if(!j.ok)throw new Error(j.error||'грешка');
     m.textContent='Резултатите са изпратени на учителя ✓';
     btn.textContent='Изпратено ✓';
   }catch(e){
