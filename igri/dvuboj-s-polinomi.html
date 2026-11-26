@@ -46,6 +46,11 @@ sup{font-size:.62em;line-height:0}
 .fb.good{border-color:var(--ok)}.fb.wrong{border-color:var(--bad)}
 .rules li{margin:6px 0;color:var(--mute)}
 .mid{text-align:center}
+footer{max-width:680px;margin:8px auto 0;padding:18px 12px 26px;border-top:2px dashed var(--line);text-align:center;color:var(--mute);font-size:14px}
+.fnav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 12px}
+.fnav a{display:inline-block;padding:7px 13px;border-radius:999px;border:2px solid var(--line);background:var(--bd2);color:var(--chalk);font-weight:700;font-size:15px;text-decoration:none}
+.fnav a:hover,.fnav a:focus-visible{border-color:var(--p0);color:var(--p0);outline:none}
+footer p{margin:0;color:var(--mute)}
 @media (max-width:420px){main{padding:8px}.panel{padding:12px}.opt{font-size:18px}}
 </style>
 </head>
@@ -90,6 +95,10 @@ sup{font-size:.62em;line-height:0}
  <button class="btn" id="again">Нов двубой</button>
 </section>
 </main>
+<footer>
+ <nav class="fnav" aria-label="Меню"><a href="../index.html">Начало</a><a href="../8-klas/index.html">8. клас</a><a href="../9-klas/index.html">9. клас</a><a href="../11-klas/index.html">11. клас</a></nav>
+ <p>© 2026 Даниела Петрова · Уроци по математика</p>
+</footer>
 
 <script>
 const $=id=>document.getElementById(id);
