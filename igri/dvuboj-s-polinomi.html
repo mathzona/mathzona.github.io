@@ -50,12 +50,23 @@ footer{max-width:680px;margin:8px auto 0;padding:18px 12px 26px;border-top:2px d
 .fnav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 12px}
 .fnav a{display:inline-block;padding:7px 13px;border-radius:999px;border:2px solid var(--line);background:var(--bd2);color:var(--chalk);font-weight:700;font-size:15px;text-decoration:none}
 .fnav a:hover,.fnav a:focus-visible{border-color:var(--p0);color:var(--p0);outline:none}
+.fnav .sep{display:none}
+.fnav-top{margin:6px 0 12px}
 footer p{margin:0;color:var(--mute)}
 @media (max-width:420px){main{padding:8px}.panel{padding:12px}.opt{font-size:18px}}
 </style>
 </head>
 <body>
 <main>
+<nav class="fnav fnav-top" aria-label="Главно меню">
+  <a href="../index.html">Начало</a>
+  <span class="sep" aria-hidden="true">·</span>
+  <a href="../8-klas/index.html">8. клас</a>
+  <span class="sep" aria-hidden="true">·</span>
+  <a href="../9-klas/index.html">9. клас</a>
+  <span class="sep" aria-hidden="true">·</span>
+  <a href="../11-klas/index.html">11. клас</a>
+</nav>
 <section class="panel" id="setup">
  <h1>Двубой с полиноми</h1>
  <p>Игра за двама на едно устройство: Безу, схема на Хорнер и нули на полиноми. Задачите стават по-трудни към края.</p>
@@ -96,7 +107,15 @@ footer p{margin:0;color:var(--mute)}
 </section>
 </main>
 <footer>
- <nav class="fnav" aria-label="Меню"><a href="../index.html">Начало</a><a href="../8-klas/index.html">8. клас</a><a href="../9-klas/index.html">9. клас</a><a href="../11-klas/index.html">11. клас</a></nav>
+<nav class="fnav" aria-label="Меню в долната част">
+   <a href="../index.html">Начало</a>
+   <span class="sep" aria-hidden="true">·</span>
+   <a href="../8-klas/index.html">8. клас</a>
+   <span class="sep" aria-hidden="true">·</span>
+   <a href="../9-klas/index.html">9. клас</a>
+   <span class="sep" aria-hidden="true">·</span>
+   <a href="../11-klas/index.html">11. клас</a>
+ </nav>
  <p>© 2026 Даниела Петрова · Уроци по математика</p>
 </footer>
 
