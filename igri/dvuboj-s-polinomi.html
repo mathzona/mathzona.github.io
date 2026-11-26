@@ -51,6 +51,31 @@ sup{font-size:.62em;line-height:0}
 .fnav a:hover,.fnav a:focus-visible{border-color:var(--p0);color:var(--p0);outline:none}
 .fnav .sep{display:none}
 .fnav-top{margin:6px 0 12px}
+.report{background:#fff;color:#1b1b1b;border-radius:12px;padding:18px;margin:14px 0;text-align:left;font-family:"Segoe UI",Arial,sans-serif}
+.report h2{margin:0 0 4px;font-size:22px;color:#1d3a33}
+.report .meta{color:#555;font-size:13px;margin:0 0 12px}
+.report .tot{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.report .tot div{border:2px solid #1d3a33;border-radius:10px;padding:8px;text-align:center}
+.report .tot b{display:block;font-size:15px;word-break:break-word}
+.report .tot span{font-size:26px;font-weight:800}
+.report .tot .w{background:#fff3b8}
+.report .win{font-weight:800;font-size:17px;margin:0 0 12px;color:#1d3a33}
+.rwrap{overflow-x:auto}
+.rt{border-collapse:collapse;width:100%;min-width:540px;font-size:13px;line-height:1.35}
+.rt th,.rt td{border:1px solid #9fb3ab;padding:5px 6px;vertical-align:top}
+.rt th{background:#1d3a33;color:#fff;text-align:center}
+.rt td.c{text-align:center;white-space:nowrap}
+.rt tr{page-break-inside:avoid;break-inside:avoid}
+.rt .ok{color:#137a3e;font-weight:700}.rt .bad{color:#c0392b;font-weight:700}
+.rt .pz{font-family:Georgia,"Times New Roman",serif;font-weight:700;display:block;margin-top:2px}
+.rt .st{font-size:11px;color:#777}
+.rt tfoot td{font-weight:800;background:#eef3f1}
+.report .note{font-size:12px;color:#555;margin:10px 0 0}
+.report.pdfmode{width:auto;margin:0;border-radius:0;padding:4px}
+.report.pdfmode .rwrap{overflow:visible}
+.ebtns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:6px}
+.btn.alt{background:transparent;color:var(--chalk);border:2px solid var(--chalk)}
+@media print{body{background:#fff}body *{visibility:hidden}#report,#report *{visibility:visible}#report{position:absolute;left:0;top:0;width:100%;margin:0}.rwrap{overflow:visible}}
 @media (max-width:420px){main{padding:8px}.panel{padding:12px}.opt{font-size:18px}}
 </style>
 <link rel="stylesheet" href="../footer.css?v=20261126m">
@@ -96,7 +121,13 @@ sup{font-size:.62em;line-height:0}
 <section class="panel mid hidden" id="end">
  <h1 id="win"></h1>
  <p id="fin"></p>
- <button class="btn" id="again">Нов двубой</button>
+ <div class="report" id="report"></div>
+ <div class="ebtns">
+  <button class="btn" id="pdf">Запази в PDF</button>
+  <button class="btn alt hidden" id="share">Изпрати PDF</button>
+  <button class="btn alt" id="again">Нов двубой</button>
+ </div>
+ <p id="pmsg" role="status"></p>
 </section>
 </main>
 <footer class="site-footer">
@@ -213,7 +244,7 @@ function gen(r){
 }
 
 const N=20;
-const G={names:['',''],sc:[0,0],round:0,q:null,phase:'',asker:0,wrong:null};
+const G={names:['',''],sc:[0,0],round:0,q:null,phase:'',asker:0,wrong:null,log:[],t0:null};
 const show=id=>['setup','game','end'].forEach(s=>$(s).classList.toggle('hidden',s!==id));
 const nm=i=>G.names[i];
 
@@ -229,7 +260,7 @@ function turnUI(who,txt){
 }
 function start(){
   G.names=[$('n0').value.trim()||'Играч 1',$('n1').value.trim()||'Играч 2'];
-  G.sc=[0,0];G.round=0;show('game');nextQ();
+  G.sc=[0,0];G.round=0;G.log=[];G.t0=new Date();show('game');nextQ();
 }
 function renderOpts(list){
   const o=$('opts');o.innerHTML='';
@@ -267,6 +298,8 @@ function reveal(){
   const okA=G.pick[a]===q.ans,okO=G.pick[o]===q.ans;
   if(okA)G.sc[a]+=2;
   if(okO)G.sc[o]+=1;
+  const pts=[0,0];pts[a]=okA?2:0;pts[o]=okO?1:0;
+  G.log.push({n:G.round+1,task:q.task,poly:$('poly').textContent,ans:q.ans,asker:a,pick:[...G.pick],pts});
   document.querySelectorAll('.opt').forEach(b=>{
     b.disabled=true;const v=+b.dataset.v;
     if(v===q.ans)b.classList.add('ok');
@@ -284,7 +317,76 @@ function finish(){
   const [a,b]=G.sc;
   $('win').textContent=a===b?'Равен резултат!':`Победител: ${nm(a>b?0:1)}`;
   $('fin').textContent=`${nm(0)}: ${a} т. | ${nm(1)}: ${b} т.`;
+  buildReport();
+  $('pmsg').textContent='';
+  $('share').classList.toggle('hidden',!canShareFiles());
 }
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function buildReport(){
+  const [a,b]=G.sc,d=G.t0||new Date();
+  const date=d.toLocaleDateString('bg-BG')+' '+d.toLocaleTimeString('bg-BG',{hour:'2-digit',minute:'2-digit'});
+  const cnt=i=>G.log.filter(r=>r.pick[i]===r.ans).length;
+  const cell=(r,i)=>{const ok=r.pick[i]===r.ans;
+    return `<td class="c"><span class="${ok?'ok':'bad'}">${M(r.pick[i])} ${ok?'✓':'✗'}</span><br>${r.pts[i]} т.${r.asker===i?'<br><span class="st">на ред</span>':''}</td>`};
+  const rows=G.log.map(r=>`<tr><td class="c">${r.n}</td><td>${esc(r.task)}<span class="pz">${esc(r.poly)}</span></td><td class="c"><b>${M(r.ans)}</b></td>${cell(r,0)}${cell(r,1)}</tr>`).join('');
+  $('report').innerHTML=`<h2>Двубой с полиноми – резултати</h2>
+  <p class="meta">Мат Зона · ${esc(date)} · ${G.log.length} задачи</p>
+  <div class="tot"><div class="${a>b?'w':''}"><b>${esc(nm(0))}</b><span>${a} т.</span><br>${cnt(0)} верни от ${G.log.length}</div>
+  <div class="${b>a?'w':''}"><b>${esc(nm(1))}</b><span>${b} т.</span><br>${cnt(1)} верни от ${G.log.length}</div></div>
+  <p class="win">${a===b?'Равен резултат!':'Победител: '+esc(nm(a>b?0:1))}</p>
+  <div class="rwrap"><table class="rt"><thead><tr><th>№</th><th>Задача</th><th>Верен отговор</th><th>${esc(nm(0))}</th><th>${esc(nm(1))}</th></tr></thead>
+  <tbody>${rows}</tbody><tfoot><tr><td colspan="3">Общо точки</td><td class="c">${a} т.</td><td class="c">${b} т.</td></tr></tfoot></table></div>
+  <p class="note">Точкуване: верен отговор на твоя ред („на ред“) – 2 т.; верен отговор на задача на противника – 1 т.</p>`;
+}
+function pdfName(){
+  const d=G.t0||new Date(),z=n=>String(n).padStart(2,'0');
+  const clean=t=>t.replace(/[\\/:*?"<>|\s]+/g,'_');
+  return `dvuboj-${clean(nm(0))}-${clean(nm(1))}-${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}.pdf`;
+}
+let libP=null;
+function loadLib(){
+  if(window.html2pdf)return Promise.resolve();
+  if(!libP)libP=new Promise((ok,no)=>{const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    s.onload=ok;s.onerror=()=>{libP=null;no()};document.head.appendChild(s)});
+  return libP;
+}
+async function makePdf(){
+  await loadLib();
+  const el=$('report'),sy=window.scrollY;el.classList.add('pdfmode');window.scrollTo(0,0);
+  try{
+    return await html2pdf().set({margin:[10,10,10,10],filename:pdfName(),image:{type:'jpeg',quality:0.95},
+      html2canvas:{scale:2,backgroundColor:'#ffffff',scrollX:0,scrollY:0},
+      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:'tr'}}).from(el).outputPdf('blob');
+  }finally{el.classList.remove('pdfmode');window.scrollTo(0,sy)}
+}
+function canShareFiles(){
+  try{return !!(navigator.canShare&&navigator.canShare({files:[new File([''],'a.pdf',{type:'application/pdf'})]}))}catch(e){return false}
+}
+async function savePdf(){
+  const m=$('pmsg'),btn=$('pdf');btn.disabled=true;m.textContent='Създаване на PDF…';
+  try{
+    const blob=await makePdf(),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=pdfName();document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    m.textContent='PDF файлът е запазен: '+pdfName();
+  }catch(e){
+    m.textContent='Не успях да създам PDF директно. Отваря се прозорецът за печат – изберете „Запази като PDF“.';
+    window.print();
+  }finally{btn.disabled=false}
+}
+async function sharePdf(){
+  const m=$('pmsg'),btn=$('share');btn.disabled=true;m.textContent='Подготовка за изпращане…';
+  try{
+    const blob=await makePdf(),file=new File([blob],pdfName(),{type:'application/pdf'});
+    await navigator.share({files:[file],title:'Двубой с полиноми – резултати',text:`${nm(0)}: ${G.sc[0]} т. | ${nm(1)}: ${G.sc[1]} т.`});
+    m.textContent='';
+  }catch(e){
+    m.textContent=e&&e.name==='AbortError'?'':'Изпращането не успя. Запазете PDF файла и го изпратете ръчно.';
+  }finally{btn.disabled=false}
+}
+$('pdf').onclick=savePdf;
+$('share').onclick=sharePdf;
 $('go').onclick=start;
 $('next').onclick=nextQ;
 $('again').onclick=()=>show('setup');
