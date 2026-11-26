@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Координати на вектор – 11 клас</title>
+<style>
+:root{--bg:#f6f9fc;--card:#fff;--ink:#14213d;--mut:#5b6678;--blue:#1d4ed8;--or:#c25e00;--line:#d5deea;--box:#eaf1ff;--ans:#fff4e5;--grid:#e3ebf5}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1727;--card:#17223a;--ink:#e8eefb;--mut:#9fb0cc;--blue:#7aa2ff;--or:#ffb061;--line:#2c3b5c;--box:#1b2c52;--ans:#33260f;--grid:#1f2d4a}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:60px}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.75 "Segoe UI",system-ui,Arial,sans-serif;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+header{padding:56px 20px 36px;max-width:900px;margin:auto}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.25;margin:0 0 12px}
+h1{font-size:clamp(30px,5vw,48px)}
+h2{font-size:clamp(24px,3.6vw,32px);border-bottom:3px solid var(--blue);padding-bottom:6px;margin-top:8px}
+h3{font-size:21px;margin-top:20px}
+.sub{color:var(--mut);margin:0}
+nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding:8px 12px;font-size:15px;padding-top:max(8px,env(safe-area-inset-top,0px))}
+nav a{white-space:nowrap;color:var(--ink);text-decoration:none;padding:4px 12px;border-radius:99px}
+nav a:hover,nav a:focus-visible{background:var(--box);outline:none}
+main{max-width:900px;margin:auto;padding:0 16px 80px}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px 26px;margin:22px 0}
+.def{background:var(--box);border-left:5px solid var(--blue);padding:12px 16px;border-radius:4px;margin:14px 0}
+.ex{background:transparent;border:1.5px dashed var(--or);padding:12px 16px;border-radius:6px;margin:14px 0}
+.ex b.t{color:var(--or)}
+.f{font:600 22px/1.6 Georgia,serif;text-align:center;margin:10px 0;overflow-x:auto}
+.v{position:relative;display:inline-block;font-style:normal}
+.v::before{content:"→";position:absolute;top:-.7em;left:0;right:0;text-align:center;font-size:.72em;line-height:1}
+p,li{max-width:70ch}
+ul,ol{padding-left:22px}
+table{border-collapse:collapse;margin:10px 0;font-size:16px}
+td,th{border:1px solid var(--line);padding:6px 12px;text-align:center}
+.lab{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:10px 0}
+.lab label{font-size:16px}
+input[type=number]{width:64px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+#out{font-weight:600;color:var(--or);min-height:3.4em}
+svg{width:100%;max-width:440px;display:block;margin:auto;background:var(--bg);border:1px solid var(--line);border-radius:6px}
+.task{border-top:1px solid var(--line);padding:14px 0}
+button{font:inherit;font-size:15px;cursor:pointer;background:var(--blue);color:#fff;border:0;border-radius:6px;padding:6px 14px;margin-top:6px}
+button:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+.ans{display:none;background:var(--ans);border-left:5px solid var(--or);padding:10px 14px;margin-top:8px;border-radius:4px}
+.ans.on{display:block}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row button.alt{background:transparent;color:var(--blue);border:1.5px solid var(--blue)}
+@media(max-width:600px){body{font-size:17px}section{padding:18px 16px}}
+.pr{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0}
+.pr input[type=number]{width:72px}
+#exfb{font-weight:600;min-height:2.6em;margin-top:8px}
+#exfb.ok{color:#15803d}#exfb.bad{color:#b91c1c}
+@media (prefers-color-scheme:dark){#exfb.ok{color:#6ee7a0}#exfb.bad{color:#ff8a8a}}
+@media print{nav{display:none}}
+nav.snav{position:static;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px;padding:0;background:none;border:0;overflow:visible;font-size:14px}
+.snav .sep{display:none}
+.snav a{display:inline-block;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--box);color:var(--blue);font-weight:600;line-height:1.4;text-decoration:none}
+.snav a:hover,.snav a:focus-visible{background:var(--blue);border-color:var(--blue);color:#fff;outline:none}
+footer.site{max-width:900px;margin:0 auto 30px;padding:0 16px}
+.fi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:10px;padding:16px 22px;text-align:center}
+.fi nav.snav{justify-content:center}
+.fi p{margin:4px auto;color:var(--mut);font-size:15px}
+.fi .au{color:var(--ink);font-weight:700;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+@media (max-width:420px){.fi{padding:14px 10px}.snav a{padding:6px 9px}}
+@media print{nav.snav{display:none}}
+</style>
+</head>
+<body>
+<header>
+<nav class="snav" aria-label="Главно меню">
+  <a href="../index.html">Начало</a>
+</nav>
+<h1>Координати на вектор в равнинна правоъгълна координатна система</h1>
+<p class="sub">Математика, 11 клас, профилирана подготовка</p>
+</header>
+<nav>
+<a href="#s1">Повторение</a><a href="#s2">Базис</a><a href="#s3">Вектор по две точки</a><a href="#s4">Действия</a><a href="#s5">Дължина</a><a href="#s6">Още приложения</a><a href="#lab">Лаборатория</a><a href="#tasks">Задачи</a><a href="#ex">Упражнение</a>
+</nav>
+<main>
+
+<section id="s1">
+<h2>1. Какво вече знаем</h2>
+<p><b>Вектор</b> е насочена отсечка. Той има <b>дължина</b> (големина) и <b>посока</b>. Означаваме го с <span class="v">AB</span> (A е начало, B е край) или с малка буква – <span class="v">a</span>.</p>
+<p>Два вектора са <b>равни</b>, когато имат еднаква дължина и еднаква посока. Затова можем да „преместваме“ вектора, без да го променяме.</p>
+<p><b>Точка в равнината</b> се задава с наредена двойка числа A(x; y): x е абсцисата (хоризонтално), y е ординатата (вертикално).</p>
+<div class="def"><b>Цел на урока:</b> да научим как се задава вектор с двойка числа – неговите <i>координати</i> – и как да използваме координатите, за да решаваме геометрични задачи само с аритметични действия.</div>
+</section>
+
+<section id="s2">
+<h2>2. Единични вектори и разлагане на вектор</h2>
+<p>В координатната система O<i>xy</i> избираме два специални вектора с начало O:</p>
+<ul>
+<li><span class="v">i</span> = (1; 0) – единичен вектор по оста O<i>x</i>;</li>
+<li><span class="v">j</span> = (0; 1) – единичен вектор по оста O<i>y</i>.</li>
+</ul>
+<p>Те са дълги по 1, перпендикулярни са и не лежат на една права. Наричат се <b>базис</b>.</p>
+<div class="def"><b>Теорема.</b> Всеки вектор <span class="v">a</span> в равнината се записва по единствен начин във вида
+<div class="f"><span class="v">a</span> = x·<span class="v">i</span> + y·<span class="v">j</span></div>
+Числата x и y са <b>координатите</b> на <span class="v">a</span>. Записваме <span class="v">a</span>(x; y) или <span class="v">a</span> = (x; y).</div>
+<p><b>Как да си го представим:</b> за да стигнем от началото на вектора до края му, вървим x стъпки надясно (наляво, ако x е отрицателно) и y стъпки нагоре (надолу, ако y е отрицателно). Тези две „стъпки“ са координатите.</p>
+<div class="ex"><b class="t">Пример 1.</b> Векторът <span class="v">a</span> = 3<span class="v">i</span> − 2<span class="v">j</span> има координати (3; −2): 3 надясно и 2 надолу.<br>
+Обратно: <span class="v">b</span>(−4; 5) = −4<span class="v">i</span> + 5<span class="v">j</span>.<br>
+Специални случаи: <span class="v">i</span>(1; 0), <span class="v">j</span>(0; 1), нулевият вектор <span class="v">0</span>(0; 0).</div>
+<p><b>Важно:</b> два вектора са равни точно когато имат равни съответни координати: ако <span class="v">a</span>(x₁; y₁) и <span class="v">b</span>(x₂; y₂), то <span class="v">a</span> = <span class="v">b</span> ⇔ x₁ = x₂ и y₁ = y₂.</p>
+</section>
+
+<section id="s3">
+<h2>3. Координати на вектор по координатите на две точки</h2>
+<div class="def"><b>Правило „край минус начало“.</b> Ако A(x<sub>A</sub>; y<sub>A</sub>) и B(x<sub>B</sub>; y<sub>B</sub>), то
+<div class="f"><span class="v">AB</span> = (x<sub>B</sub> − x<sub>A</sub>; y<sub>B</sub> − y<sub>A</sub>)</div></div>
+<p><b>Защо е така?</b> От A до B се придвижваме по x с разликата x<sub>B</sub> − x<sub>A</sub> и по y с y<sub>B</sub> − y<sub>A</sub>. Това са именно стъпките, които описват вектора.</p>
+<div class="ex"><b class="t">Пример 2.</b> A(2; 3), B(5; 7).<br>
+<span class="v">AB</span> = (5 − 2; 7 − 3) = (3; 4).<br>
+<span class="v">BA</span> = (2 − 5; 3 − 7) = (−3; −4). Забележи: <span class="v">BA</span> = −<span class="v">AB</span> (обратен вектор – всички координати сменят знака си).</div>
+<div class="ex"><b class="t">Пример 3.</b> A(−1; 4), B(3; −2). <span class="v">AB</span> = (3 − (−1); −2 − 4) = (4; −6).<br>
+Внимание със знаците при изваждане на отрицателно число!</div>
+<p><b>Често допускана грешка:</b> да се размени редът „край – начало“. Първо винаги пишем <i>края</i>.</p>
+<p><b>Радиус-вектор.</b> Ако началото е O(0; 0), то <span class="v">OA</span> = (x<sub>A</sub>; y<sub>A</sub>): координатите на радиус-вектора съвпадат с координатите на точката.</p>
+</section>
+
+<section id="s4">
+<h2>4. Действия с вектори в координати</h2>
+<p>Нека <span class="v">a</span>(x₁; y₁), <span class="v">b</span>(x₂; y₂) и λ е реално число.</p>
+<table>
+<tr><th>Действие</th><th>Правило</th></tr>
+<tr><td>Сума</td><td><span class="v">a</span> + <span class="v">b</span> = (x₁ + x₂; y₁ + y₂)</td></tr>
+<tr><td>Разлика</td><td><span class="v">a</span> − <span class="v">b</span> = (x₁ − x₂; y₁ − y₂)</td></tr>
+<tr><td>Умножение с число</td><td>λ·<span class="v">a</span> = (λx₁; λy₁)</td></tr>
+</table>
+<p>Просто казано: действията се извършват <b>поотделно по x и по y</b>.</p>
+<div class="ex"><b class="t">Пример 4.</b> <span class="v">a</span>(2; −1), <span class="v">b</span>(−3; 4).<br>
+<span class="v">a</span> + <span class="v">b</span> = (2 + (−3); −1 + 4) = (−1; 3)<br>
+<span class="v">a</span> − <span class="v">b</span> = (2 − (−3); −1 − 4) = (5; −5)<br>
+3<span class="v">a</span> = (6; −3)<br>
+2<span class="v">a</span> − 3<span class="v">b</span> = (4; −2) − (−9; 12) = (13; −14)</div>
+<p><b>Колинеарни вектори.</b> Ако <span class="v">b</span> = λ<span class="v">a</span>, векторите лежат на успоредни (или на една и съща) прави. Условие: <span class="v">a</span>(x₁; y₁) и <span class="v">b</span>(x₂; y₂) са колинеарни ⇔ <b>x₁·y₂ − x₂·y₁ = 0</b>.</p>
+<div class="ex"><b class="t">Пример 5.</b> <span class="v">a</span>(2; 3) и <span class="v">b</span>(4; 6): 2·6 − 4·3 = 0, значи са колинеарни (<span class="v">b</span> = 2<span class="v">a</span>).<br>
+<span class="v">c</span>(1; 5) и <span class="v">d</span>(2; 9): 1·9 − 2·5 = −1 ≠ 0, значи не са колинеарни.</div>
+</section>
+
+<section id="s5">
+<h2>5. Дължина на вектор</h2>
+<div class="def">Ако <span class="v">a</span>(x; y), то
+<div class="f">|<span class="v">a</span>| = √(x² + y²)</div></div>
+<p>Това е Питагоровата теорема: x и y са катетите на правоъгълен триъгълник, а векторът е хипотенузата.</p>
+<div class="ex"><b class="t">Пример 6.</b> <span class="v">a</span>(3; 4): |<span class="v">a</span>| = √(9 + 16) = √25 = 5.<br>
+<span class="v">b</span>(−1; 2): |<span class="v">b</span>| = √(1 + 4) = √5.</div>
+<p><b>Разстояние между две точки:</b> AB = |<span class="v">AB</span>| = √((x<sub>B</sub> − x<sub>A</sub>)² + (y<sub>B</sub> − y<sub>A</sub>)²).</p>
+<div class="ex"><b class="t">Пример 7.</b> A(−1; 2), B(3; 5). <span class="v">AB</span> = (4; 3), AB = √(16 + 9) = 5.</div>
+<p>Дължината не зависи от знаците: |<span class="v">a</span>| = |−<span class="v">a</span>|.</p>
+</section>
+
+<section id="s6">
+<h2>6. Още приложения</h2>
+<h3>Среда на отсечка</h3>
+<div class="def">Ако M е средата на AB, то M( (x<sub>A</sub> + x<sub>B</sub>)/2 ; (y<sub>A</sub> + y<sub>B</sub>)/2 ).</div>
+<div class="ex"><b class="t">Пример 8.</b> A(−2; 1), B(6; 5): M(2; 3).</div>
+<h3>Четвърти връх на успоредник</h3>
+<p>В успоредника ABCD е в сила <span class="v">AB</span> = <span class="v">DC</span>. Така се намира липсващият връх.</p>
+<div class="ex"><b class="t">Пример 9.</b> A(1; 1), B(4; 2), C(5; 5), търсим D(x; y).<br>
+<span class="v">AB</span> = (3; 1), <span class="v">DC</span> = (5 − x; 5 − y).<br>
+5 − x = 3 ⇒ x = 2; 5 − y = 1 ⇒ y = 4. Значи D(2; 4).<br>
+Проверка: <span class="v">AD</span> = (1; 3) = <span class="v">BC</span> ✓.</div>
+<h3>Намиране на точка по вектор</h3>
+<div class="ex"><b class="t">Пример 10.</b> <span class="v">AB</span>(3; −2), A(1; 1). Тогава B(1 + 3; 1 − 2) = B(4; −1).</div>
+</section>
+
+<section id="lab">
+<h2>Лаборатория: нарисувай вектор</h2>
+<p>Промени координатите на A и B и наблюдай как се получават координатите и дължината на <span class="v">AB</span>.</p>
+<div class="lab">
+<label>A( <input type="number" id="ax" value="-2"> ; <input type="number" id="ay" value="1"> )</label>
+<label>B( <input type="number" id="bx" value="3"> ; <input type="number" id="by" value="4"> )</label>
+</div>
+<svg id="pl" viewBox="-7 -7 14 14" role="img" aria-label="Координатна равнина с вектор AB"></svg>
+<p id="out"></p>
+<p class="sub">Плътната стрелка е <span class="v">AB</span>. Пунктирната стрелка е равният му вектор с начало O.</p>
+</section>
+
+<section id="tasks">
+<h2>Задачи за упражнение</h2>
+<p>Реши задачата в тетрадката и натисни „Покажи отговора“.</p>
+<div class="row"><button class="alt" onclick="all_(1)">Покажи всички отговори</button><button class="alt" onclick="all_(0)">Скрий всички отговори</button></div>
+
+<div class="task"><b>Задача 1.</b> Намерете координатите и дължината на <span class="v">AB</span>, ако A(1; −2) и B(4; 2).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (4 − 1; 2 − (−2)) = (3; 4); |<span class="v">AB</span>| = √(9 + 16) = 5.</div></div>
+
+<div class="task"><b>Задача 2.</b> Дадени са <span class="v">a</span>(3; −2) и <span class="v">b</span>(−1; 5). Намерете <span class="v">a</span> + <span class="v">b</span> и <span class="v">a</span> − <span class="v">b</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">a</span> + <span class="v">b</span> = (2; 3); <span class="v">a</span> − <span class="v">b</span> = (4; −7).</div></div>
+
+<div class="task"><b>Задача 3.</b> Ако <span class="v">a</span>(1; 2) и <span class="v">b</span>(−2; 1), намерете 2<span class="v">a</span> − 3<span class="v">b</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">2<span class="v">a</span> = (2; 4), 3<span class="v">b</span> = (−6; 3). 2<span class="v">a</span> − 3<span class="v">b</span> = (2 + 6; 4 − 3) = (8; 1).</div></div>
+
+<div class="task"><b>Задача 4.</b> Намерете дължината на <span class="v">a</span>(5; −12).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">|<span class="v">a</span>| = √(25 + 144) = √169 = 13.</div></div>
+
+<div class="task"><b>Задача 5.</b> За коя стойност на x векторите <span class="v">a</span>(x; 6) и <span class="v">b</span>(2; 3) са колинеарни?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">Условие: x·3 − 2·6 = 0 ⇒ 3x = 12 ⇒ <b>x = 4</b>. Проверка: <span class="v">a</span>(4; 6) = 2·<span class="v">b</span> ✓.</div></div>
+
+<div class="task"><b>Задача 6.</b> Намерете координатите на средата M на отсечката AB, ако A(−3; 4) и B(5; −2).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">M((−3 + 5)/2; (4 + (−2))/2) = M(1; 1).</div></div>
+
+<div class="task"><b>Задача 7.</b> Дадени са <span class="v">AB</span>(2; −3) и A(1; 4). Намерете координатите на B.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">B(1 + 2; 4 − 3) = B(3; 1).</div></div>
+
+<div class="task"><b>Задача 8.</b> Четириъгълникът ABCD е успоредник, като A(−1; 0), B(2; 1), C(3; 4). Намерете върха D.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (3; 1) и <span class="v">DC</span> = (3 − x; 4 − y). От <span class="v">AB</span> = <span class="v">DC</span>: 3 − x = 3 ⇒ x = 0; 4 − y = 1 ⇒ y = 3. <b>D(0; 3)</b>.</div></div>
+
+<div class="task"><b>Задача 9.</b> Намерете периметъра на триъгълник ABC с A(1; 1), B(4; 5), C(1; 5). Какъв е триъгълникът?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (3; 4) ⇒ AB = 5; <span class="v">BC</span> = (−3; 0) ⇒ BC = 3; <span class="v">AC</span> = (0; 4) ⇒ AC = 4. Периметър = 12. Тъй като 3² + 4² = 5², триъгълникът е правоъгълен с прав ъгъл при C.</div></div>
+
+<div class="task"><b>Задача 10.</b> Разложете <span class="v">c</span>(5; 1) по векторите <span class="v">a</span>(1; 1) и <span class="v">b</span>(1; −1), т.е. намерете m и n, така че <span class="v">c</span> = m<span class="v">a</span> + n<span class="v">b</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">m + n = 5 и m − n = 1. Събираме: 2m = 6 ⇒ m = 3, тогава n = 2. Значи <span class="v">c</span> = 3<span class="v">a</span> + 2<span class="v">b</span>. Проверка: (3 + 2; 3 − 2) = (5; 1) ✓.</div></div>
+<h3>Допълнителни задачи – основно ниво</h3>
+<div class="task"><b>Задача 11.</b> Намерете координатите на <span class="v">AB</span> и <span class="v">BA</span>, ако A(−3; 5) и B(2; −1).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (2 − (−3); −1 − 5) = (5; −6); <span class="v">BA</span> = (−5; 6) = −<span class="v">AB</span>.</div></div>
+
+<div class="task"><b>Задача 12.</b> Дадени са <span class="v">a</span>(4; −3) и <span class="v">b</span>(−2; 6). Намерете 3<span class="v">a</span> + <span class="v">b</span> и <span class="v">a</span> − 2<span class="v">b</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">3<span class="v">a</span> = (12; −9), значи 3<span class="v">a</span> + <span class="v">b</span> = (10; −3).<br>2<span class="v">b</span> = (−4; 12), значи <span class="v">a</span> − 2<span class="v">b</span> = (4 + 4; −3 − 12) = (8; −15).</div></div>
+
+<div class="task"><b>Задача 13.</b> Намерете дължините на <span class="v">a</span>(−8; 6) и <span class="v">b</span>(7; 24).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">|<span class="v">a</span>| = √(64 + 36) = √100 = 10; |<span class="v">b</span>| = √(49 + 576) = √625 = 25.</div></div>
+
+<div class="task"><b>Задача 14.</b> Намерете разстоянието между точките A(−2; −3) и B(4; 5).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (6; 8); AB = √(36 + 64) = √100 = <b>10</b>.</div></div>
+
+<div class="task"><b>Задача 15.</b> Кои от двойките вектори са колинеарни? а) <span class="v">a</span>(−3; 2) и <span class="v">b</span>(9; −6); б) <span class="v">a</span>(2; 5) и <span class="v">b</span>(4; 11).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">а) (−3)·(−6) − 9·2 = 18 − 18 = 0 ⇒ колинеарни (<span class="v">b</span> = −3<span class="v">a</span>).<br>б) 2·11 − 4·5 = 22 − 20 = 2 ≠ 0 ⇒ не са колинеарни.</div></div>
+
+<div class="task"><b>Задача 16.</b> За коя стойност на y векторите <span class="v">a</span>(−2; y) и <span class="v">b</span>(6; 9) са колинеарни?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">(−2)·9 − 6·y = 0 ⇒ −18 = 6y ⇒ <b>y = −3</b>. Проверка: <span class="v">a</span>(−2; −3), <span class="v">b</span> = −3<span class="v">a</span> ✓.</div></div>
+
+<div class="task"><b>Задача 17.</b> Точка M(1; −2) е средата на отсечката AB и A(−3; 4). Намерете координатите на B.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">От 1 = (−3 + x<sub>B</sub>)/2 ⇒ x<sub>B</sub> = 5; от −2 = (4 + y<sub>B</sub>)/2 ⇒ y<sub>B</sub> = −8. <b>B(5; −8)</b>.</div></div>
+
+<h3>Допълнителни задачи – по-трудни</h3>
+<div class="task"><b>Задача 18.</b> ABCD е успоредник, като A(2; −1), B(6; 1) и D(3; 3). Намерете върха C.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (4; 2). От <span class="v">AB</span> = <span class="v">DC</span>: (x − 3; y − 3) = (4; 2) ⇒ x = 7, y = 5. <b>C(7; 5)</b>.<br>Проверка: <span class="v">AD</span> = (1; 4) = <span class="v">BC</span> ✓.</div></div>
+
+<div class="task"><b>Задача 19.</b> Дадени са A(−1; −1), B(5; −1) и C(2; 3). Намерете периметъра на триъгълник ABC. Какъв е той по страни?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (6; 0) ⇒ AB = 6; <span class="v">AC</span> = (3; 4) ⇒ AC = 5; <span class="v">BC</span> = (−3; 4) ⇒ BC = 5. Периметър = 16. Тъй като AC = BC, триъгълникът е равнобедрен с основа AB.</div></div>
+
+<div class="task"><b>Задача 20.</b> Намерете точка M(x; 0) от оста O<i>x</i>, която е на равни разстояния от A(1; 3) и B(5; 1).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">MA² = (x − 1)² + 9 и MB² = (x − 5)² + 1. От MA² = MB²: x² − 2x + 10 = x² − 10x + 26 ⇒ 8x = 16 ⇒ x = 2. <b>M(2; 0)</b>.<br>Проверка: MA² = 1 + 9 = 10 и MB² = 9 + 1 = 10 ✓.</div></div>
+
+<div class="task"><b>Задача 21.</b> Разложете <span class="v">c</span>(7; −1) по векторите <span class="v">a</span>(2; 1) и <span class="v">b</span>(1; −1), т.е. намерете m и n, така че <span class="v">c</span> = m<span class="v">a</span> + n<span class="v">b</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">2m + n = 7 и m − n = −1. Събираме: 3m = 6 ⇒ m = 2, тогава n = 3. Значи <span class="v">c</span> = 2<span class="v">a</span> + 3<span class="v">b</span>. Проверка: (4 + 3; 2 − 3) = (7; −1) ✓.</div></div>
+
+<div class="task"><b>Задача 22.</b> Намерете вектор със същата посока като <span class="v">a</span>(3; 4), но с дължина 10.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">|<span class="v">a</span>| = √(9 + 16) = 5, значи дължината трябва да се удвои: 2<span class="v">a</span> = (6; 8). Проверка: √(36 + 64) = 10 ✓.</div></div>
+
+<div class="task"><b>Задача 23.</b> Докажете, че A(0; 0), B(4; 1), C(5; 5), D(1; 4) са върхове на успоредник. Успоредникът ромб ли е?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (4; 1) и <span class="v">DC</span> = (5 − 1; 5 − 4) = (4; 1), т.е. <span class="v">AB</span> = <span class="v">DC</span> ⇒ ABCD е успоредник.<br>AB = √(16 + 1) = √17; <span class="v">AD</span> = (1; 4) ⇒ AD = √(1 + 16) = √17. Съседни страни са равни ⇒ успоредникът е <b>ромб</b>.</div></div>
+<h3>Втора серия – лесни задачи</h3>
+<div class="task"><b>Задача 24.</b> Запишете във вид (x; y) векторите: <span class="v">a</span> = 5<span class="v">i</span> − 3<span class="v">j</span>, <span class="v">b</span> = −2<span class="v">i</span> + 4<span class="v">j</span>, <span class="v">c</span> = 6<span class="v">j</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">a</span> = (5; −3); <span class="v">b</span> = (−2; 4); <span class="v">c</span> = (0; 6) (липсващата координата е 0).</div></div>
+
+<div class="task"><b>Задача 25.</b> Запишете чрез <span class="v">i</span> и <span class="v">j</span> векторите: <span class="v">a</span>(7; −2), <span class="v">b</span>(−1; 0), <span class="v">c</span>(0; −5).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">a</span> = 7<span class="v">i</span> − 2<span class="v">j</span>; <span class="v">b</span> = −<span class="v">i</span>; <span class="v">c</span> = −5<span class="v">j</span>.</div></div>
+
+<div class="task"><b>Задача 26.</b> Намерете координатите на <span class="v">AB</span>, ако A(4; −1) и B(−2; 3).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (−2 − 4; 3 − (−1)) = (−6; 4).</div></div>
+
+<div class="task"><b>Задача 27.</b> Дадени са <span class="v">a</span>(1; −4) и <span class="v">b</span>(5; 2). Намерете <span class="v">a</span> + <span class="v">b</span> и <span class="v">a</span> − <span class="v">b</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">a</span> + <span class="v">b</span> = (6; −2); <span class="v">a</span> − <span class="v">b</span> = (1 − 5; −4 − 2) = (−4; −6).</div></div>
+
+<div class="task"><b>Задача 28.</b> Дадено е <span class="v">a</span>(−2; 3). Намерете 4<span class="v">a</span>, −3<span class="v">a</span> и ½<span class="v">a</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">4<span class="v">a</span> = (−8; 12); −3<span class="v">a</span> = (6; −9); ½<span class="v">a</span> = (−1; 1,5).</div></div>
+
+<div class="task"><b>Задача 29.</b> Намерете дължините на векторите: <span class="v">a</span>(6; 8), <span class="v">b</span>(−5; 12), <span class="v">c</span>(0; −7), <span class="v">d</span>(1; 1).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">|<span class="v">a</span>| = √(36 + 64) = 10; |<span class="v">b</span>| = √(25 + 144) = 13; |<span class="v">c</span>| = √49 = 7; |<span class="v">d</span>| = √2.</div></div>
+
+<div class="task"><b>Задача 30.</b> Намерете средата M на отсечката AB, ако A(2; −4) и B(8; 6).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">M((2 + 8)/2; (−4 + 6)/2) = M(5; 1).</div></div>
+
+<h3>Втора серия – задачи със средна трудност</h3>
+<div class="task"><b>Задача 31.</b> Дадени са <span class="v">AB</span>(−3; 5) и A(4; −2). Намерете B.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">B(4 + (−3); −2 + 5) = B(1; 3).</div></div>
+
+<div class="task"><b>Задача 32.</b> Дадени са <span class="v">AB</span>(2; −4) и B(5; 1). Намерете началото A.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">x<sub>A</sub> = 5 − 2 = 3, y<sub>A</sub> = 1 − (−4) = 5. <b>A(3; 5)</b>.</div></div>
+
+<div class="task"><b>Задача 33.</b> При какви стойности на x и y са равни векторите <span class="v">a</span>(2x − 1; 3) и <span class="v">b</span>(5; y + 2)?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">2x − 1 = 5 ⇒ <b>x = 3</b>; y + 2 = 3 ⇒ <b>y = 1</b>.</div></div>
+
+<div class="task"><b>Задача 34.</b> Дадени са A(1; 2), B(4; 6) и C(7; −2). Намерете <span class="v">AB</span>, <span class="v">BC</span> и <span class="v">AB</span> + <span class="v">BC</span>. Какво забелязвате?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (3; 4); <span class="v">BC</span> = (3; −8); <span class="v">AB</span> + <span class="v">BC</span> = (6; −4). Също така <span class="v">AC</span> = (7 − 1; −2 − 2) = (6; −4), т.е. <span class="v">AB</span> + <span class="v">BC</span> = <span class="v">AC</span> (правило на триъгълника).</div></div>
+
+<div class="task"><b>Задача 35.</b> Лежат ли точките A(1; 1), B(3; 5) и C(6; 11) на една права?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (2; 4), <span class="v">AC</span> = (5; 10). Проверяваме колинеарност: 2·10 − 5·4 = 20 − 20 = 0. Векторите са колинеарни и имат обща точка A, значи <b>точките лежат на една права</b> (<span class="v">AC</span> = 2,5·<span class="v">AB</span>).</div></div>
+
+<div class="task"><b>Задача 36.</b> Дадени са <span class="v">a</span>(1; −2), <span class="v">b</span>(3; 0) и <span class="v">c</span>(−1; 4). Намерете 2<span class="v">a</span> − <span class="v">b</span> + 3<span class="v">c</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">2<span class="v">a</span> = (2; −4); −<span class="v">b</span> = (−3; 0); 3<span class="v">c</span> = (−3; 12). Сума: (2 − 3 − 3; −4 + 0 + 12) = <b>(−4; 8)</b>.</div></div>
+
+<div class="task"><b>Задача 37.</b> Намерете разстоянието между A(−3; −2) и B(2; 10).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (5; 12); AB = √(25 + 144) = √169 = <b>13</b>.</div></div>
+
+<div class="task"><b>Задача 38.</b> Докажете, че триъгълникът с върхове A(1; 1), B(5; 1) и C(5; 4) е правоъгълен, и намерете лицето му.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (4; 0) ⇒ AB = 4; <span class="v">BC</span> = (0; 3) ⇒ BC = 3; <span class="v">AC</span> = (4; 3) ⇒ AC = 5. Тъй като 4² + 3² = 5², триъгълникът е правоъгълен с прав ъгъл при B. Лице: S = ½·4·3 = <b>6</b>.</div></div>
+
+<h3>Втора серия – трудни задачи</h3>
+<div class="task"><b>Задача 39.</b> Три от върховете на успоредник са A(0; 0), B(4; 1) и C(3; 5). Намерете всички възможни положения на четвъртия връх D.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">Има три случая, според това кой връх е срещу D:<br>• D срещу A: D = B + C − A = (7; 6);<br>• D срещу B: D = A + C − B = (−1; 4);<br>• D срещу C: D = A + B − C = (1; −4).<br>Всеки от тях дава успоредник с дадените три върха.</div></div>
+
+<div class="task"><b>Задача 40.</b> За кои стойности на k векторите <span class="v">a</span>(k; 4) и <span class="v">b</span>(3; k + 1) са колинеарни?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">k·(k + 1) − 3·4 = 0 ⇒ k² + k − 12 = 0 ⇒ (k − 3)(k + 4) = 0 ⇒ <b>k = 3</b> или <b>k = −4</b>.<br>Проверка: при k = 3 имаме <span class="v">a</span>(3; 4) = <span class="v">b</span>(3; 4); при k = −4 имаме <span class="v">a</span>(−4; 4) и <span class="v">b</span>(3; −3) = −0,75·<span class="v">a</span> ✓.</div></div>
+
+<div class="task"><b>Задача 41.</b> Намерете точка M(0; y) от оста O<i>y</i>, която е на равни разстояния от A(−2; 1) и B(4; 7).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">MA² = 4 + (y − 1)², MB² = 16 + (y − 7)². От MA² = MB²: y² − 2y + 5 = y² − 14y + 65 ⇒ 12y = 60 ⇒ y = 5. <b>M(0; 5)</b>.<br>Проверка: MA² = 4 + 16 = 20, MB² = 16 + 4 = 20 ✓.</div></div>
+
+<div class="task"><b>Задача 42.</b> ABCD е успоредник, като A(−1; 2), B(3; −1) и C(5; 6). Намерете D, като използвате, че диагоналите AC и BD имат обща среда.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">Средата на AC е M((−1 + 5)/2; (2 + 6)/2) = M(2; 4). M е и среда на BD: (3 + x)/2 = 2 ⇒ x = 1; (−1 + y)/2 = 4 ⇒ y = 9. <b>D(1; 9)</b>.<br>Проверка: <span class="v">AB</span> = (4; −3) и <span class="v">DC</span> = (5 − 1; 6 − 9) = (4; −3) ✓.</div></div>
+
+<div class="task"><b>Задача 43.</b> Разложете <span class="v">c</span>(5; 3) по векторите <span class="v">a</span>(1; 2) и <span class="v">b</span>(3; −1), т.е. <span class="v">c</span> = m<span class="v">a</span> + n<span class="v">b</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">m + 3n = 5 и 2m − n = 3. От второто n = 2m − 3. Заместваме: m + 6m − 9 = 5 ⇒ 7m = 14 ⇒ m = 2, n = 1. Значи <span class="v">c</span> = 2<span class="v">a</span> + <span class="v">b</span>. Проверка: (2 + 3; 4 − 1) = (5; 3) ✓.</div></div>
+
+<div class="task"><b>Задача 44.</b> При какви стойности на x векторът <span class="v">a</span>(x; 8) има дължина 10?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">√(x² + 64) = 10 ⇒ x² + 64 = 100 ⇒ x² = 36 ⇒ <b>x = 6</b> или <b>x = −6</b>.</div></div>
+
+<div class="task"><b>Задача 45.</b> Даден е триъгълник ABC с A(1; 2), B(7; 2) и C(4; 8). Намерете дължината на медианата CM (M е средата на AB).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">M((1 + 7)/2; (2 + 2)/2) = M(4; 2). <span class="v">CM</span> = (4 − 4; 2 − 8) = (0; −6), значи CM = √(0 + 36) = <b>6</b>.</div></div>
+<h3>Трета серия – още лесни задачи</h3>
+<div class="task"><b>Задача 46.</b> Запишете координатите на векторите: <span class="v">a</span> = 2<span class="v">i</span> + <span class="v">j</span>, <span class="v">b</span> = −<span class="v">i</span> − <span class="v">j</span>, <span class="v">c</span> = 4<span class="v">i</span>, <span class="v">d</span> = −3<span class="v">j</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">a</span> = (2; 1); <span class="v">b</span> = (−1; −1); <span class="v">c</span> = (4; 0); <span class="v">d</span> = (0; −3).</div></div>
+
+<div class="task"><b>Задача 47.</b> Векторът <span class="v">a</span>(−3; 2) се чертае със стъпки от началото до края му. Колко стъпки и в коя посока се правят по хоризонтала и по вертикала?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">x = −3: <b>3 стъпки наляво</b>; y = 2: <b>2 стъпки нагоре</b>.</div></div>
+
+<div class="task"><b>Задача 48.</b> Намерете координатите и дължината на <span class="v">AB</span>, ако A(1; 1) и B(4; 5).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (4 − 1; 5 − 1) = (3; 4); |<span class="v">AB</span>| = √(9 + 16) = 5.</div></div>
+
+<div class="task"><b>Задача 49.</b> Намерете <span class="v">AB</span> и <span class="v">BA</span>, ако A(−2; 0) и B(0; 3).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (0 − (−2); 3 − 0) = (2; 3); <span class="v">BA</span> = (−2; −3).</div></div>
+
+<div class="task"><b>Задача 50.</b> Намерете радиус-векторите <span class="v">OA</span> и <span class="v">OB</span>, ако A(−4; 7) и B(0; −5).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">Координатите на радиус-вектора са равни на координатите на точката: <span class="v">OA</span> = (−4; 7); <span class="v">OB</span> = (0; −5).</div></div>
+
+<div class="task"><b>Задача 51.</b> Дадени са <span class="v">a</span>(2; 5) и <span class="v">b</span>(3; −1). Намерете <span class="v">a</span> + <span class="v">b</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">(2 + 3; 5 + (−1)) = (5; 4).</div></div>
+
+<div class="task"><b>Задача 52.</b> Дадени са <span class="v">a</span>(7; 4) и <span class="v">b</span>(2; 9). Намерете <span class="v">a</span> − <span class="v">b</span> и <span class="v">b</span> − <span class="v">a</span>. Как са свързани резултатите?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">a</span> − <span class="v">b</span> = (5; −5); <span class="v">b</span> − <span class="v">a</span> = (−5; 5). Резултатите са противоположни вектори.</div></div>
+
+<div class="task"><b>Задача 53.</b> Дадено е <span class="v">a</span>(−1; 3). Намерете 2<span class="v">a</span>, 5<span class="v">a</span> и −<span class="v">a</span>.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">2<span class="v">a</span> = (−2; 6); 5<span class="v">a</span> = (−5; 15); −<span class="v">a</span> = (1; −3).</div></div>
+
+<div class="task"><b>Задача 54.</b> Равни ли са векторите <span class="v">a</span>(1 + 2; 5 − 7) и <span class="v">b</span>(3; −2)?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">Първо пресмятаме <span class="v">a</span> = (3; −2). Съответните координати са равни, значи <b><span class="v">a</span> = <span class="v">b</span></b>.</div></div>
+
+<div class="task"><b>Задача 55.</b> Намерете дължините на <span class="v">a</span>(3; 4), <span class="v">b</span>(8; 15) и <span class="v">c</span>(−9; 0).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">|<span class="v">a</span>| = √(9 + 16) = 5; |<span class="v">b</span>| = √(64 + 225) = √289 = 17; |<span class="v">c</span>| = √81 = 9.</div></div>
+
+<div class="task"><b>Задача 56.</b> Намерете средата на отсечката AB: а) A(0; 0), B(6; 8); б) A(−4; 2), B(2; −6).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">а) M(3; 4); б) M((−4 + 2)/2; (2 + (−6))/2) = M(−1; −2).</div></div>
+
+<div class="task"><b>Задача 57.</b> Дадени са <span class="v">AB</span>(3; 2) и A(1; 1). Намерете B.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">B(1 + 3; 1 + 2) = B(4; 3).</div></div>
+
+<div class="task"><b>Задача 58.</b> Намерете x и y, ако <span class="v">a</span>(x − 1; 4) и <span class="v">b</span>(6; y + 1) са равни.
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">x − 1 = 6 ⇒ <b>x = 7</b>; y + 1 = 4 ⇒ <b>y = 3</b>.</div></div>
+
+<div class="task"><b>Задача 59.</b> Колинеарни ли са: а) <span class="v">a</span>(1; 2) и <span class="v">b</span>(3; 6); б) <span class="v">c</span>(2; 3) и <span class="v">d</span>(4; 7)?
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans">а) 1·6 − 3·2 = 0 ⇒ колинеарни (<span class="v">b</span> = 3<span class="v">a</span>).<br>б) 2·7 − 4·3 = 14 − 12 = 2 ≠ 0 ⇒ не са колинеарни.</div></div>
+
+<div class="task"><b>Задача 60.</b> Намерете разстоянието между A(0; 1) и B(5; 13).
+<br><button onclick="tg(this)">Покажи отговора</button><div class="ans"><span class="v">AB</span> = (5; 12); AB = √(25 + 144) = √169 = <b>13</b>.</div></div>
+</section>
+
+<section id="ex">
+<h2>Упражнение: провери се</h2>
+<p>Дадени са две точки. Намери координатите на <span class="v">AB</span> и координатите на средата M на отсечката AB. Въведи отговорите и натисни „Провери“. С „Нов пример“ получаваш други точки.</p>
+<p id="exq" style="font-weight:600;font-size:20px"></p>
+<div class="pr"><label><span class="v">AB</span>( <input type="number" id="ex1" aria-label="x на AB"> ; <input type="number" id="ex2" aria-label="y на AB"> )</label></div>
+<div class="pr"><label>M( <input type="number" id="ex3" aria-label="x на M"> ; <input type="number" id="ex4" aria-label="y на M"> )</label></div>
+<div class="row"><button onclick="exCheck()">Провери</button><button class="alt" onclick="exSol()">Покажи решение</button><button class="alt" onclick="exNew()">Нов пример</button></div>
+<p id="exfb" aria-live="polite"></p>
+<div class="ans" id="exsol"></div>
+<p class="sub">Напомняне: <span class="v">AB</span> = край − начало; M е средноаритметичното на координатите на A и B.</p>
+</section>
+
+<section>
+<h2>Накратко</h2>
+<ul>
+<li><span class="v">a</span> = x<span class="v">i</span> + y<span class="v">j</span> = (x; y) – вектор с две координати.</li>
+<li><span class="v">AB</span> = (x<sub>B</sub> − x<sub>A</sub>; y<sub>B</sub> − y<sub>A</sub>) – край минус начало.</li>
+<li>Сума, разлика и умножение с число – координата по координата.</li>
+<li>|<span class="v">a</span>| = √(x² + y²).</li>
+<li>Колинеарност: x₁y₂ − x₂y₁ = 0. Среда: средноаритметично на координатите.</li>
+</ul>
+</section>
+</main>
+<footer class="site"><div class="fi">
+<nav class="snav" aria-label="Меню в долната част">
+  <a href="../index.html">Начало</a>
+  <span class="sep" aria-hidden="true">·</span>
+  <a href="../8-klas/index.html">8. клас</a>
+  <span class="sep" aria-hidden="true">·</span>
+  <a href="../9-klas/index.html">9. клас</a>
+  <span class="sep" aria-hidden="true">·</span>
+  <a href="../11-klas/index.html">11. клас</a>
+</nav>
+<p><b>Тема:</b> Координати на вектор · Математика, 11 клас, профилирана подготовка</p>
+<p class="au">Даниела Петрова – учител по математика</p>
+</div></footer>
+<script>
+function tg(b){var a=b.nextElementSibling;a.classList.toggle('on');b.textContent=a.classList.contains('on')?'Скрий отговора':'Покажи отговора'}
+function all_(s){document.querySelectorAll('.task').forEach(function(t){var a=t.querySelector('.ans'),b=t.querySelector('button');a.classList.toggle('on',!!s);b.textContent=s?'Скрий отговора':'Покажи отговора'})}
+function dr(){
+var g=function(i){var v=parseFloat(document.getElementById(i).value);return isNaN(v)?0:Math.max(-6,Math.min(6,v))};
+var ax=g('ax'),ay=g('ay'),bx=g('bx'),by=g('by'),dx=bx-ax,dy=by-ay,s='';
+var C=getComputedStyle(document.documentElement),gr=C.getPropertyValue('--line'),ink=C.getPropertyValue('--ink'),bl=C.getPropertyValue('--blue'),or=C.getPropertyValue('--or');
+s+='<defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="'+bl+'"/></marker><marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="'+or+'"/></marker></defs>';
+for(var i=-6;i<=6;i++){s+='<line x1="'+i+'" y1="-6.5" x2="'+i+'" y2="6.5" stroke="'+gr+'" stroke-width=".04"/><line x1="-6.5" y1="'+i+'" x2="6.5" y2="'+i+'" stroke="'+gr+'" stroke-width=".04"/>';if(i&&i%2==0){s+='<text x="'+i+'" y="0.7" font-size=".5" text-anchor="middle" fill="'+ink+'">'+i+'</text><text x="-0.3" y="'+(-i+0.17)+'" font-size=".5" text-anchor="end" fill="'+ink+'">'+i+'</text>'}}
+s+='<line x1="-6.6" y1="0" x2="6.6" y2="0" stroke="'+ink+'" stroke-width=".07"/><line x1="0" y1="-6.6" x2="0" y2="6.6" stroke="'+ink+'" stroke-width=".07"/>';
+s+='<text x="6.3" y="-.3" font-size=".6" fill="'+ink+'">x</text><text x=".3" y="-6.2" font-size=".6" fill="'+ink+'">y</text>';
+if(dx||dy){s+='<line x1="0" y1="0" x2="'+dx+'" y2="'+(-dy)+'" stroke="'+or+'" stroke-width=".1" stroke-dasharray=".25 .2" marker-end="url(#m2)"/>';
+s+='<line x1="'+ax+'" y1="'+(-ay)+'" x2="'+bx+'" y2="'+(-by)+'" stroke="'+bl+'" stroke-width=".14" marker-end="url(#m1)"/>'}
+s+='<circle cx="'+ax+'" cy="'+(-ay)+'" r=".18" fill="'+bl+'"/><circle cx="'+bx+'" cy="'+(-by)+'" r=".18" fill="'+bl+'"/><text x="'+(ax+.25)+'" y="'+(-ay-.3)+'" font-size=".6" font-weight="700" fill="'+bl+'">A</text><text x="'+(bx+.25)+'" y="'+(-by-.3)+'" font-size=".6" font-weight="700" fill="'+bl+'">B</text>';
+document.getElementById('pl').innerHTML=s;
+var L=Math.sqrt(dx*dx+dy*dy);
+document.getElementById('out').innerHTML='AB = ('+bx+' − ('+ax+'); '+by+' − ('+ay+')) = ('+dx+'; '+dy+')<br>|AB| = √('+dx*dx+' + '+dy*dy+') = '+(Number.isInteger(L)?L:'√'+(dx*dx+dy*dy)+' ≈ '+L.toFixed(2));
+}
+['ax','ay','bx','by'].forEach(function(i){document.getElementById(i).addEventListener('input',dr)});dr();
+
+var ex={};
+function exNew(){
+var r=function(){return Math.floor(Math.random()*13)-6};
+var ax=r(),ay=r(),bx,by;
+do{bx=r();by=r();if((bx-ax)%2)bx+=bx<6?1:-1;if((by-ay)%2)by+=by<6?1:-1}while(bx==ax&&by==ay);
+ex={ax:ax,ay:ay,bx:bx,by:by,dx:bx-ax,dy:by-ay,mx:(ax+bx)/2,my:(ay+by)/2};
+document.getElementById('exq').textContent='A('+ax+'; '+ay+'), B('+bx+'; '+by+')';
+['ex1','ex2','ex3','ex4'].forEach(function(i){document.getElementById(i).value=''});
+var f=document.getElementById('exfb');f.textContent='';f.className='';
+document.getElementById('exsol').classList.remove('on');
+}
+function exCheck(){
+var g=function(i){var t=document.getElementById(i).value.replace(',','.').replace('\u2212','-');return t===''?NaN:parseFloat(t)};
+var v=[g('ex1'),g('ex2'),g('ex3'),g('ex4')],f=document.getElementById('exfb');
+if(v.some(isNaN)){f.className='bad';f.textContent='Попълни всичките четири полета.';return}
+var abOk=v[0]==ex.dx&&v[1]==ex.dy,mOk=v[2]==ex.mx&&v[3]==ex.my;
+if(abOk&&mOk){f.className='ok';f.textContent='\u2713 Вярно! И двата отговора са правилни.'}
+else if(abOk){f.className='bad';f.textContent='\u2713 AB е вярно. \u2717 Средата M не е: съберете координатите на A и B и разделете на 2.'}
+else if(mOk){f.className='bad';f.textContent='\u2713 M е вярно. \u2717 AB не е: пресметни край минус начало (B \u2212 A).'}
+else{f.className='bad';f.textContent='\u2717 Опитай пак. Подсказка: AB = (x\u0042 \u2212 x\u0041; y\u0042 \u2212 y\u0041).'}
+}
+function exSol(){
+var e=ex,d=document.getElementById('exsol');
+d.innerHTML='<span class="v">AB</span> = ('+e.bx+' \u2212 ('+e.ax+'); '+e.by+' \u2212 ('+e.ay+')) = ('+e.dx+'; '+e.dy+')<br>M(('+e.ax+' + ('+e.bx+'))/2; ('+e.ay+' + ('+e.by+'))/2) = M('+e.mx+'; '+e.my+')';
+d.classList.add('on');
+}
+exNew();
+</script>
+</body>
+</html>
