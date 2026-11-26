@@ -395,18 +395,22 @@ $('share').onclick=sharePdf;
 const toB64=blob=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(blob)});
 async function sendTeacher(){
   const m=$('pmsg'),btn=$('teach');btn.disabled=true;m.textContent='Изпращане на учителя…';
+  let stage='PDF';
   try{
     const pdf=await toB64(await makePdf());
+    stage='връзка';
     const res=await fetch(TEACHER_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
       body:JSON.stringify({filename:pdfName(),pdf,
         subject:`Двубой с полиноми: ${nm(0)} ${G.sc[0]} т. – ${nm(1)} ${G.sc[1]} т.`,
         text:`${nm(0)}: ${G.sc[0]} т.\n${nm(1)}: ${G.sc[1]} т.\n${G.sc[0]===G.sc[1]?'Равен резултат':'Победител: '+nm(G.sc[0]>G.sc[1]?0:1)}\n\nПодробните отговори са в прикачения PDF.`})});
+    stage='отговор '+res.status;
     const j=await res.json();
+    stage='скрипт';
     if(!j.ok)throw new Error(j.error||'грешка');
     m.textContent='Резултатите са изпратени на учителя ✓';
     btn.textContent='Изпратено ✓';
   }catch(e){
-    m.textContent='Изпращането не успя. Проверете интернет връзката и опитайте пак или запазете PDF файла.';
+    m.textContent=`Изпращането не успя. Опитайте пак или запазете PDF файла. (${stage}: ${e&&e.message||e})`;
     btn.disabled=false;
   }
 }
