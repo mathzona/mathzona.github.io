@@ -1,0 +1,30 @@
+/* Общ футър за всички страници на Math Зона
+   <footer class="site-footer"> … </footer> */
+footer.site-footer{position:relative;z-index:1;clear:both;display:block;margin:64px 0 0;padding:36px 20px 26px;
+  background:#1a1d3a;color:#c4c7dc;text-align:left;border:0;max-width:none;
+  font:400 15px/1.5 'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;letter-spacing:.005em}
+footer.site-footer *{box-sizing:border-box}
+footer.site-footer .sf-inner{max-width:1180px;margin:0 auto}
+footer.site-footer .sf-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px;
+  padding:0 0 30px;border-bottom:1px solid rgba(255,255,255,.12)}
+footer.site-footer .sf-brand{display:flex;align-items:center;gap:14px;min-width:0}
+footer.site-footer .sf-logo{flex:none;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:12px;
+  background:linear-gradient(135deg,#6d5df6,#a855f7);color:#fff;font:700 24px/1 Georgia,'Times New Roman',serif}
+footer.site-footer .sf-brand-text{display:flex;flex-direction:column;gap:4px;min-width:0}
+footer.site-footer .sf-name{display:block;margin:0;color:#fff;font-weight:700;font-size:19px;line-height:1.2}
+footer.site-footer .sf-tagline{display:block;margin:0;color:#c4c7dc;font-size:15px;line-height:1.4;max-width:none}
+footer.site-footer .sf-links{display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;margin:0;padding:0;list-style:none}
+footer.site-footer .sf-links li{margin:0;padding:0;list-style:none;max-width:none}
+footer.site-footer .sf-links li::before,footer.site-footer .sf-links li::marker{content:none}
+footer.site-footer .sf-links a,
+footer.site-footer .sf-links a:visited{display:inline;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;
+  color:#fff;text-decoration:none;font-weight:500;font-size:16px;line-height:1.5;white-space:nowrap}
+footer.site-footer .sf-links a:hover,
+footer.site-footer .sf-links a:focus-visible{background:none;color:#fff;text-decoration:underline;text-underline-offset:4px;outline:none}
+footer.site-footer .sf-copy{margin:0;padding-top:26px;text-align:center;color:#a9adc6;font-size:14.5px;max-width:none}
+@media (max-width:640px){
+  footer.site-footer .sf-top{flex-direction:column;align-items:flex-start}
+  footer.site-footer .sf-links{gap:8px 20px}
+}
+@media (prefers-color-scheme:dark){footer.site-footer{background:#0a0b17}}
+@media print{footer.site-footer{display:none}}
