@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Двубой с полиноми</title>
+<style>
+:root{--bd:#1d3a33;--bd2:#27493f;--chalk:#f4f1e8;--mute:#a9bdb4;--p0:#ffd84d;--p1:#ff8fb1;--ok:#6fe3a0;--bad:#ff7a7a;--line:#4b6b60}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bd);color:var(--chalk);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+background-image:radial-gradient(ellipse at 30% 0,#2a5246 0,transparent 60%)}
+main{max-width:680px;margin:0 auto;padding:12px}
+h1{font-size:clamp(26px,7vw,40px);margin:6px 0 8px;letter-spacing:.5px}
+p{line-height:1.55;color:var(--mute);margin:8px 0}
+.panel{background:var(--bd2);border:2px dashed var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.hidden{display:none}
+input{width:100%;font:inherit;font-size:17px;padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--bd);color:var(--chalk);margin:4px 0 10px}
+label{font-weight:700}
+button{font:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.btn{background:var(--chalk);color:var(--bd);border:0;border-radius:10px;padding:13px 22px;font-weight:800;font-size:17px}
+.btn:focus-visible,.opt:focus-visible{outline:3px solid var(--p0);outline-offset:2px}
+.score{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pl{border:3px solid var(--line);border-radius:12px;padding:8px 12px;text-align:center;opacity:.65}
+.pl.on{opacity:1}
+.pl b{display:block;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl span{font-size:30px;font-weight:800}
+#pl0{color:var(--p0)}#pl0.on{border-color:var(--p0)}
+#pl1{color:var(--p1)}#pl1.on{border-color:var(--p1)}
+.tug{height:14px;border-radius:8px;overflow:hidden;display:flex;margin:10px 0 12px;border:2px solid var(--line)}
+.tug i{display:block;transition:width .4s}
+#t0{background:var(--p0)}#t1{background:var(--p1)}
+.turn{font-size:18px;font-weight:800;margin:0 0 6px}
+.task{margin:0 0 6px;color:var(--chalk)}
+.poly{font-size:clamp(19px,5vw,28px);font-weight:700;margin:6px 0 10px;word-break:break-word;font-family:Georgia,"Times New Roman",serif}
+sup{font-size:.62em;line-height:0}
+.hz{border-collapse:collapse;margin:6px 0 12px;width:100%;table-layout:fixed;font-size:clamp(15px,4vw,20px);text-align:center}
+.hz td{border:2px solid var(--line);padding:8px 2px}
+.hz td.l{width:26%;font-size:.7em;color:var(--mute)}
+.hz td.q{background:var(--p0);color:var(--bd);font-weight:800}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{background:var(--bd);color:var(--chalk);border:2px solid var(--chalk);border-radius:10px;padding:16px 6px;font-size:20px;font-weight:800}
+.opt:disabled{cursor:default;opacity:.55}
+.opt.ok{background:var(--ok);color:var(--bd);border-color:var(--ok);opacity:1}
+.opt.bad{background:var(--bad);color:var(--bd);border-color:var(--bad);opacity:1}
+.fb{margin-top:12px;padding:10px 12px;border-left:6px solid var(--mute);background:var(--bd);border-radius:8px;line-height:1.5}
+.fb.good{border-color:var(--ok)}.fb.wrong{border-color:var(--bad)}
+.rules li{margin:6px 0;color:var(--mute)}
+.mid{text-align:center}
+.back{display:inline-block;margin:4px 0 8px;color:var(--mute);text-decoration:none;font-weight:700}
+.back:hover,.back:focus-visible{color:var(--chalk)}
+@media (max-width:420px){main{padding:8px}.panel{padding:12px}.opt{font-size:18px}}
+</style>
+</head>
+<body>
+<main>
+<a class="back" href="index.html">← Към игрите</a>
+<section class="panel" id="setup">
+ <h1>Двубой с полиноми</h1>
+ <p>Игра за двама на едно устройство: Безу, схема на Хорнер и нули на полиноми. Задачите стават по-трудни към края.</p>
+ <ul class="rules">
+  <li>Играчите отговарят на задачи на смени, общо 20 задачи.</li>
+  <li>Верен отговор на твоя ред носи 2 точки.</li>
+  <li>След теб противникът отговаря на същата задача, без да вижда твоя отговор. Верен отговор му носи 1 точка.</li>
+  <li>Кое е правилно и кое грешно, се показва едва след като отговорят и двамата.</li>
+  <li>Печели този, който има повече точки накрая.</li>
+ </ul>
+ <label for="n0">Играч 1</label><input id="n0" maxlength="14" placeholder="Име" autocomplete="off">
+ <label for="n1">Играч 2</label><input id="n1" maxlength="14" placeholder="Име" autocomplete="off">
+ <div class="mid"><button class="btn" id="go">Започни двубоя</button></div>
+</section>
+
+<section class="hidden" id="game">
+ <div class="score">
+  <div class="pl on" id="pl0"><b id="nm0"></b><span id="sc0">0</span></div>
+  <div class="pl" id="pl1"><b id="nm1"></b><span id="sc1">0</span></div>
+ </div>
+ <div class="tug" aria-hidden="true"><i id="t0" style="width:50%"></i><i id="t1" style="width:50%"></i></div>
+ <div class="panel">
+  <p class="turn" id="turn"></p>
+  <p class="task" id="task"></p>
+  <div class="poly" id="poly"></div>
+  <div id="ht"></div>
+  <div class="opts" id="opts"></div>
+  <div class="fb hidden" id="fb" role="status"></div>
+  <div class="mid hidden" id="nx" style="margin-top:12px"><button class="btn" id="next">Следваща задача</button></div>
+ </div>
+ <p class="mid" id="rd"></p>
+</section>
+
+<section class="panel mid hidden" id="end">
+ <h1 id="win"></h1>
+ <p id="fin"></p>
+ <button class="btn" id="again">Нов двубой</button>
+</section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const sp={2:'²',3:'³',4:'⁴'};
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[rnd(0,a.length-1)];
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=rnd(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const M=n=>String(n).replace('-','−');
+const sg=a=>a===0?'x':`(x ${a>0?'−':'+'} ${Math.abs(a)})`;
+
+function fmt(c,pi){
+  const n=c.length-1;let s='';
+  c.forEach((v,i)=>{
+    const p=n-i;if(v===0&&i!==pi)return;
+    let t,neg=false;
+    if(i===pi)t='k'+(p>0?'x'+(p>1?sp[p]:''):'');
+    else{neg=v<0;const a=Math.abs(v);t=(a===1&&p>0?'':a)+(p>0?'x'+(p>1?sp[p]:''):'')}
+    s+=s===''?(neg?'−':'')+t:(neg?' − ':' + ')+t;
+  });
+  return s||'0';
+}
+const horner=(c,x)=>c.reduce((r,v)=>r*x+v,0);
+function hornerRow(c,a){const b=[c[0]];for(let i=1;i<c.length;i++)b.push(a*b[i-1]+c[i]);return b}
+function fromRoots(r){let c=[1];r.forEach(a=>{const n=[...c,0];for(let i=0;i<c.length;i++)n[i+1]-=a*c[i];c=n});return c}
+function distinct(k){const s=new Set();while(s.size<k)s.add(rnd(-4,4));return[...s]}
+function options(ans,near){
+  const s=new Set([ans]);near.forEach(v=>{if(s.size<4&&v!==ans)s.add(v)});
+  let d=1;while(s.size<4){s.add(ans+pick([-1,1])*rnd(1,3+d));d++}
+  return shuffle([...s]);
+}
+function randPoly(deg){const c=[pick([1,1,2])];for(let i=1;i<=deg;i++)c.push(rnd(-5,5));return c}
+
+function qBezout(L){
+  const c=randPoly(L>=3?4:3),a=pick([-3,-2,-1,1,2,3]),ans=horner(c,a);
+  return{task:`Намери остатъка при деление на P(x) с ${sg(a)}. Помощ: теорема на Безу.`,c,ans,
+    opts:options(ans,[horner(c,-a),c[c.length-1],ans+rnd(1,4)]),
+    why:`Безу: остатъкът е P(a). Тук P(${M(a)}) = ${M(ans)}.`};
+}
+function qHorner(L){
+  const c=randPoly(L>=3?4:3),a=pick([-3,-2,-1,1,2,3]),b=hornerRow(c,a),j=rnd(1,c.length-1),ans=b[j];
+  return{task:`Схемата на Хорнер дели P(x) на ${sg(a)}. Кое число липсва на мястото на ?`,c,ans,ht:{c,a,b,j},
+    opts:options(ans,[c[j]-a*b[j-1],ans+a,ans-1]),
+    why:`Всяко число в долния ред е (предишното число × ${M(a)}) + коефициента над него: (${M(b[j-1])})·(${M(a)}) + (${M(c[j])}) = ${M(ans)}. Последното число е остатъкът P(${M(a)}).`};
+}
+function qZero(L){
+  const r=distinct(L>=3?4:L>=2?3:2),c=fromRoots(r),ans=pick(r),w=[];
+  for(let x=-6;x<=6;x++)if(horner(c,x)!==0)w.push(x);
+  return{task:'Кое от числата е нула на полинома? Помощ: провери със схема на Хорнер, остатъкът трябва да е 0.',c,ans,
+    opts:shuffle([ans,...shuffle(w).slice(0,3)]),
+    why:`P(${M(ans)}) = 0. Полиномът се разлага като ${r.map(sg).join('')}, т.е. нулите му са ${r.map(M).join(', ')}.`};
+}
+function qParam(){
+  const a=pick([-2,-1,1,2]),k=rnd(-4,4),m=rnd(-5,5),n=-(a**3+k*a*a+m*a),c=[1,k,m,n];
+  return{task:`Числото ${M(a)} е нула на P(x). Намери k.`,c,pi:1,ans:k,opts:options(k,[-k,k+1,k-1]),
+    why:`Нула означава P(${M(a)}) = 0. От това уравнение k = ${M(k)}.`};
+}
+function qQuot(L){
+  const k=L>=3?4:3,r=distinct(k),c=fromRoots(r),a=pick(r.filter(v=>v!==0)),b=hornerRow(c,a),Q=b.slice(0,k),ans=Q[k-2];
+  return{task:`Числото ${M(a)} е нула на P(x). Схемата на Хорнер за ${sg(a)} дава частното Q(x). Намери коефициента пред x в Q(x).`,c,ans,
+    opts:options(ans,[Q[k-1],-ans,ans+1]),
+    why:`Долният ред на схемата е ${b.map(M).join(', ')}. Последното число 0 е остатъкът, а останалите са коефициентите на частното Q(x) = ${fmt(Q)}.`};
+}
+function qExpand(){
+  const r=distinct(3),c=fromRoots(r);
+  return{task:'Разкрий скобите и намери коефициента пред x в получения полином.',show:'P(x) = '+r.map(sg).join(''),c,ans:c[2],
+    opts:options(c[2],[-c[2],c[1],c[3]]),
+    why:`Коефициентът пред x е сумата от произведенията на нулите по две: (${M(r[0]*r[1])}) + (${M(r[0]*r[2])}) + (${M(r[1]*r[2])}) = ${M(c[2])}. Полиномът е ${fmt(c)}.`};
+}
+function qParamRem(){
+  const a=pick([-2,-1,1,2]),k=rnd(-4,4),m=rnd(-5,5),n=rnd(-5,5),c=[1,k,m,n],r=horner(c,a);
+  return{task:`Остатъкът при деление на P(x) с ${sg(a)} е ${M(r)}. Намери k.`,c,pi:1,ans:k,opts:options(k,[-k,k+1,k-1]),
+    why:`По Безу P(${M(a)}) = ${M(r)}, тоест ${M(a**3+m*a+n)} + ${a*a}k = ${M(r)}, откъдето k = ${M(k)}.`};
+}
+function qRemQuad(){
+  const a=pick([1,2,3]),p=pick([-4,-3,-2,-1,1,2,3,4]),q=rnd(-5,5),r1=p*a+q,r2=-p*a+q;
+  return{task:`Остатъкът при деление на P(x) с (x − ${a}) е ${M(r1)}, а с (x + ${a}) е ${M(r2)}. При деление на P(x) с (x² − ${a*a}) остатъкът е R(x) = px + q. Намери p.`,show:'R(x) = px + q',ans:p,
+    opts:options(p,[q,-p,p+1]),
+    why:`P(x) и R(x) дават еднакви остатъци при деление с (x − ${a}) и (x + ${a}), затова ${a}p + q = ${M(r1)} и −${a}p + q = ${M(r2)}. Изваждаме: ${2*a}p = ${M(r1-r2)}, откъдето p = ${M(p)}.`};
+}
+function qMult(){
+  const a=pick([-3,-2,-1,1,2,3]);let b=rnd(-4,4);while(b===a)b=rnd(-4,4);
+  const c=fromRoots([a,a,b]),h1=hornerRow(c,a),Q=h1.slice(0,3),h2=hornerRow(Q,a);
+  return{task:`Числото ${M(a)} е двукратна нула на P(x). Намери третата нула.`,c,ans:b,opts:options(b,[a,-b,b+1]),
+    why:`Делим два пъти със схемата на Хорнер за ${sg(a)}. Първо получаваме ${h1.map(M).join(', ')}, после ${h2.map(M).join(', ')}. Остава x ${b>0?'−':'+'} ${Math.abs(b)}, тоест третата нула е ${M(b)}.`};
+}
+function gen(r){
+  const L=r<6?1:r<13?2:3;
+  let p=[qBezout,qHorner,qZero];
+  if(L===2)p=[qBezout,qHorner,qZero,qParam,qQuot,qExpand,qHorner];
+  if(L===3)p=[qBezout,qHorner,qZero,qQuot,qParamRem,qRemQuad,qMult,qMult,qRemQuad,qQuot,qExpand];
+  return pick(p)(L);
+}
+
+const N=20;
+const G={names:['',''],sc:[0,0],round:0,q:null,phase:'',asker:0,wrong:null};
+const show=id=>['setup','game','end'].forEach(s=>$(s).classList.toggle('hidden',s!==id));
+const nm=i=>G.names[i];
+
+function scoreUI(){
+  $('sc0').textContent=G.sc[0];$('sc1').textContent=G.sc[1];
+  $('nm0').textContent=nm(0);$('nm1').textContent=nm(1);
+  const d=Math.max(-5,Math.min(5,G.sc[0]-G.sc[1]));const w=50+d*7;
+  $('t0').style.width=w+'%';$('t1').style.width=(100-w)+'%';
+}
+function turnUI(who,txt){
+  $('pl0').classList.toggle('on',who===0);$('pl1').classList.toggle('on',who===1);
+  const t=$('turn');t.textContent=txt;t.style.color=who===0?'var(--p0)':who===1?'var(--p1)':'var(--chalk)';
+}
+function start(){
+  G.names=[$('n0').value.trim()||'Играч 1',$('n1').value.trim()||'Играч 2'];
+  G.sc=[0,0];G.round=0;show('game');nextQ();
+}
+function renderOpts(list){
+  const o=$('opts');o.innerHTML='';
+  list.forEach(v=>{const b=document.createElement('button');b.className='opt';b.textContent=M(v);b.dataset.v=v;b.onclick=()=>answer(v);o.appendChild(b)});
+}
+function nextQ(){
+  if(G.round>=N)return finish();
+  const q=G.q=gen(G.round);G.asker=G.round%2;G.phase='ask';G.pick=[null,null];
+  scoreUI();turnUI(G.asker,`Ред на ${nm(G.asker)}`);
+  $('rd').textContent=`Задача ${G.round+1} от ${N}`;
+  $('task').textContent=q.task;
+  $('poly').innerHTML=q.show||('P(x) = '+fmt(q.c,q.pi));
+  $('ht').innerHTML=q.ht?hornerTable(q.ht):'';
+  renderOpts(q.opts);
+  $('fb').classList.add('hidden');$('nx').classList.add('hidden');
+}
+function hornerTable({c,a,b,j}){
+  return '<table class="hz"><tr><td class="l">x = '+M(a)+'</td>'+c.map(v=>'<td>'+M(v)+'</td>').join('')+
+  '</tr><tr><td class="l">долен ред</td>'+b.map((v,i)=>i===j?'<td class="q">?</td>':'<td>'+M(v)+'</td>').join('')+'</tr></table>';
+}
+function answer(v){
+  const q=G.q,o=1-G.asker;
+  if(G.phase==='ask'){
+    G.pick[G.asker]=v;G.phase='second';
+    turnUI(o,`${nm(o)}, сега отговаряш ти`);
+    renderOpts(shuffle([...q.opts]));
+    const fb=$('fb');fb.className='fb';
+    fb.textContent=`${nm(G.asker)} отговори. Верният отговор ще се покаже, след като отговориш и ти.`;
+  }else if(G.phase==='second'){
+    G.pick[o]=v;G.phase='done';reveal();
+  }
+}
+function reveal(){
+  const q=G.q,a=G.asker,o=1-a,fb=$('fb');
+  const okA=G.pick[a]===q.ans,okO=G.pick[o]===q.ans;
+  if(okA)G.sc[a]+=2;
+  if(okO)G.sc[o]+=1;
+  document.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;const v=+b.dataset.v;
+    if(v===q.ans)b.classList.add('ok');
+    else if(v===G.pick[a]||v===G.pick[o])b.classList.add('bad');
+  });
+  const line=(i,ok,pts)=>`${nm(i)}: ${M(G.pick[i])} ${ok?'✓ (+'+pts+')':'✗'}`;
+  fb.className='fb '+(okA||okO?'good':'wrong');
+  fb.innerHTML=`<b>Верният отговор е ${M(q.ans)}.</b><br>${line(a,okA,2)}<br>${line(o,okO,1)}<br>${q.why}`;
+  scoreUI();turnUI(-1,'Резултат от задачата');G.round++;
+  $('next').textContent=G.round>=N?'Виж резултата':'Следваща задача';
+  $('nx').classList.remove('hidden');$('next').focus();
+}
+function finish(){
+  show('end');
+  const [a,b]=G.sc;
+  $('win').textContent=a===b?'Равен резултат!':`Победител: ${nm(a>b?0:1)}`;
+  $('fin').textContent=`${nm(0)}: ${a} т. | ${nm(1)}: ${b} т.`;
+}
+$('go').onclick=start;
+$('next').onclick=nextQ;
+$('again').onclick=()=>show('setup');
+</script>
+</body>
+</html>
