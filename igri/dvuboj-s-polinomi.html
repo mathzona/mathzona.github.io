@@ -246,7 +246,7 @@ function gen(r){
 
 // Връзка към Google Apps Script (уеб приложение), което праща PDF-а на учителя.
 // Докато е празна, бутонът „Изпрати на учителя“ не се показва.
-const TEACHER_URL='';
+const TEACHER_URL='https://script.google.com/macros/s/AKfycbyiG7NDZZKULsHwE1he0khXmAkgyh6KOvcNoPtvl9WV48x6E9t6PcPKxK6VQeA1gfuXNA/exec';
 const N=20;
 const G={names:['',''],sc:[0,0],round:0,q:null,phase:'',asker:0,wrong:null,log:[],t0:null};
 const show=id=>['setup','game','end'].forEach(s=>$(s).classList.toggle('hidden',s!==id));
