@@ -393,17 +393,28 @@ async function sharePdf(){
 $('pdf').onclick=savePdf;
 $('share').onclick=sharePdf;
 const toB64=blob=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(blob)});
+function postForm(url,data){
+  return new Promise(ok=>{
+    const name='tf'+Date.now(),ifr=document.createElement('iframe'),f=document.createElement('form'),inp=document.createElement('input');
+    ifr.name=name;ifr.style.display='none';
+    f.method='POST';f.action=url;f.target=name;f.style.display='none';
+    inp.type='hidden';inp.name='data';inp.value=data;f.appendChild(inp);
+    document.body.append(ifr,f);
+    let done=false;const fin=()=>{if(done)return;done=true;ok();setTimeout(()=>{ifr.remove();f.remove()},2000)};
+    ifr.onload=fin;setTimeout(fin,25000);
+    f.submit();
+  });
+}
 async function sendTeacher(){
   const m=$('pmsg'),btn=$('teach');btn.disabled=true;m.textContent='Изпращане на учителя…';
   let stage='PDF';
   try{
     const pdf=await toB64(await makePdf());
     stage='връзка';
-    // no-cors: браузърът не чете отговора на Google, затова не спира заявката заради CORS.
-    await fetch(TEACHER_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({filename:pdfName(),pdf,
+    // Праща се като обикновена HTML форма в скрит iframe: формите не се спират от CORS.
+    await postForm(TEACHER_URL,JSON.stringify({filename:pdfName(),pdf,
         subject:`Двубой с полиноми: ${nm(0)} ${G.sc[0]} т. – ${nm(1)} ${G.sc[1]} т.`,
-        text:`${nm(0)}: ${G.sc[0]} т.\n${nm(1)}: ${G.sc[1]} т.\n${G.sc[0]===G.sc[1]?'Равен резултат':'Победител: '+nm(G.sc[0]>G.sc[1]?0:1)}\n\nПодробните отговори са в прикачения PDF.`})});
+        text:`${nm(0)}: ${G.sc[0]} т.\n${nm(1)}: ${G.sc[1]} т.\n${G.sc[0]===G.sc[1]?'Равен резултат':'Победител: '+nm(G.sc[0]>G.sc[1]?0:1)}\n\nПодробните отговори са в прикачения PDF.`}));
     m.textContent='Резултатите са изпратени на учителя ✓';
     btn.textContent='Изпратено ✓';
   }catch(e){
