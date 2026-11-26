@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Нули на полиноми – урок за 11 клас</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f6f8fb;--card:#fff;--ink:#1d2433;--mut:#5b6578;--acc:#1f5fbf;--acc2:#e8f0fc;--ok:#1b7f4b;--okb:#e3f5ea;--bad:#b3261e;--badb:#fbe7e5;--line:#d5dbe6;--ex:#fff8e6;--exl:#e8c872}
 @media (prefers-color-scheme:dark){:root{--bg:#141922;--card:#1c2330;--ink:#e6eaf2;--mut:#9aa5ba;--acc:#7aaeff;--acc2:#22304a;--ok:#6fd49b;--okb:#17352a;--bad:#ff8a80;--badb:#3d1f1d;--line:#34405a;--ex:#2b2716;--exl:#7a6a2c}}
@@ -41,10 +42,6 @@ td,th{border:1px solid var(--line);padding:5px 12px;text-align:center}
 .bg span{position:absolute;bottom:-80px;font-family:"Cambria Math",Georgia,serif;font-style:italic;color:var(--acc);opacity:.13;white-space:nowrap;animation:fl linear infinite}
 @keyframes fl{from{transform:translateY(0) rotate(var(--r0))}to{transform:translateY(-115vh) rotate(var(--r1))}}
 @media (prefers-reduced-motion:reduce){.bg span{animation:none;bottom:auto}}
-footer{position:relative;z-index:1;max-width:1060px;margin:0 auto 30px;padding:0 16px}
-.fi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--acc);border-radius:10px;padding:16px 22px;text-align:center}
-.fi p{margin:4px 0;color:var(--mut);font-size:.95rem}
-.fi .au{color:var(--ink);font-weight:bold;font-size:1.05rem;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
 .nav{display:flex;justify-content:center;gap:10px;margin:18px 0 0;flex-wrap:wrap}
 .nav button{font-weight:bold;padding:9px 22px;margin:0}
 .nav button.on{background:var(--acc);color:var(--card)}
@@ -57,7 +54,13 @@ footer{position:relative;z-index:1;max-width:1060px;margin:0 auto 30px;padding:0
 .snav .sep{display:none}
 .snav a{display:inline-block;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--acc2);color:var(--acc);font:600 14px/1.4 system-ui,"Segoe UI",sans-serif;text-decoration:none}
 .snav a:hover,.snav a:focus-visible{background:var(--acc);border-color:var(--acc);color:var(--card);outline:none}
-@media (max-width:420px){.fi{padding:14px 10px}.snav a{padding:6px 9px}}
+@media (max-width:420px){.snav a{padding:6px 9px}}
+footer.mfoot{position:relative;z-index:1;max-width:none;margin:0;border-top:1px solid #dfe3ea;background:#fff;padding:22px 16px;text-align:center;color:#5a6477;font:400 .88rem/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+footer.mfoot nav.mnav{position:static;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 14px;padding:0;background:none;border:0;overflow:visible}
+footer.mfoot .sep{display:none}
+footer.mfoot .mnav a{display:inline-block;padding:7px 13px;font-size:.92rem;line-height:1.55;border-radius:999px;background:#eef0ff;border:1px solid #d6d9fb;color:#4f46e5;font-weight:600;text-decoration:none;white-space:nowrap}
+footer.mfoot .mnav a:hover,footer.mfoot .mnav a:focus-visible{background:#4f46e5;border-color:#4f46e5;color:#fff;outline:none}
+footer.mfoot p{margin:0;max-width:none}
 </style>
 </head>
 <body>
@@ -161,8 +164,9 @@ footer{position:relative;z-index:1;max-width:1060px;margin:0 auto 30px;padding:0
 </section>
 <section id="ex"></section>
 </div>
-<footer><div class="fi">
-<nav class="snav" aria-label="Меню в долната част">
+</main>
+<footer class="mfoot">
+<nav class="mnav" aria-label="Меню в долната част">
   <a href="../index.html">Начало</a>
   <span class="sep" aria-hidden="true">·</span>
   <a href="../8-klas/index.html">8. клас</a>
@@ -171,10 +175,8 @@ footer{position:relative;z-index:1;max-width:1060px;margin:0 auto 30px;padding:0
   <span class="sep" aria-hidden="true">·</span>
   <a href="../11-klas/index.html">11. клас</a>
 </nav>
-<p><b>Тема:</b> Нули на полиноми · Математика, 11 клас, профилирана подготовка</p>
-
-<p class="au">Даниела Петрова – учител по математика</p>
-</div></footer>
+<p>© 2026 Даниела Петрова · Уроци по математика</p>
+</footer>
 
 <script>
 var gc=0;
