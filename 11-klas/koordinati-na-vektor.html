@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Координати на вектор – 11 клас</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f6f9fc;--card:#fff;--ink:#14213d;--mut:#5b6678;--blue:#1d4ed8;--or:#c25e00;--line:#d5deea;--box:#eaf1ff;--ans:#fff4e5;--grid:#e3ebf5}
 @media (prefers-color-scheme:dark){:root{--bg:#0f1727;--card:#17223a;--ink:#e8eefb;--mut:#9fb0cc;--blue:#7aa2ff;--or:#ffb061;--line:#2c3b5c;--box:#1b2c52;--ans:#33260f;--grid:#1f2d4a}}
@@ -54,13 +55,14 @@ nav.snav{position:static;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px;pad
 .snav .sep{display:none}
 .snav a{display:inline-block;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--box);color:var(--blue);font-weight:600;line-height:1.4;text-decoration:none}
 .snav a:hover,.snav a:focus-visible{background:var(--blue);border-color:var(--blue);color:#fff;outline:none}
-footer.site{max-width:900px;margin:0 auto 30px;padding:0 16px}
-.fi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:10px;padding:16px 22px;text-align:center}
-.fi nav.snav{justify-content:center}
-.fi p{margin:4px auto;color:var(--mut);font-size:15px}
-.fi .au{color:var(--ink);font-weight:700;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
-@media (max-width:420px){.fi{padding:14px 10px}.snav a{padding:6px 9px}}
+@media (max-width:420px){.snav a{padding:6px 9px}}
 @media print{nav.snav{display:none}}
+footer.mfoot{position:relative;z-index:1;max-width:none;margin:0;border-top:1px solid #dfe3ea;background:#fff;padding:22px 16px;text-align:center;color:#5a6477;font:400 .88rem/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+footer.mfoot nav.mnav{position:static;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 14px;padding:0;background:none;border:0;overflow:visible}
+footer.mfoot .sep{display:none}
+footer.mfoot .mnav a{display:inline-block;padding:7px 13px;font-size:.92rem;line-height:1.55;border-radius:999px;background:#eef0ff;border:1px solid #d6d9fb;color:#4f46e5;font-weight:600;text-decoration:none;white-space:nowrap}
+footer.mfoot .mnav a:hover,footer.mfoot .mnav a:focus-visible{background:#4f46e5;border-color:#4f46e5;color:#fff;outline:none}
+footer.mfoot p{margin:0;max-width:none}
 </style>
 </head>
 <body>
@@ -387,8 +389,8 @@ footer.site{max-width:900px;margin:0 auto 30px;padding:0 16px}
 </ul>
 </section>
 </main>
-<footer class="site"><div class="fi">
-<nav class="snav" aria-label="Меню в долната част">
+<footer class="mfoot">
+<nav class="mnav" aria-label="Меню в долната част">
   <a href="../index.html">Начало</a>
   <span class="sep" aria-hidden="true">·</span>
   <a href="../8-klas/index.html">8. клас</a>
@@ -397,9 +399,8 @@ footer.site{max-width:900px;margin:0 auto 30px;padding:0 16px}
   <span class="sep" aria-hidden="true">·</span>
   <a href="../11-klas/index.html">11. клас</a>
 </nav>
-<p><b>Тема:</b> Координати на вектор · Математика, 11 клас, профилирана подготовка</p>
-<p class="au">Даниела Петрова – учител по математика</p>
-</div></footer>
+<p>© 2026 Даниела Петрова · Уроци по математика</p>
+</footer>
 <script>
 function tg(b){var a=b.nextElementSibling;a.classList.toggle('on');b.textContent=a.classList.contains('on')?'Скрий отговора':'Покажи отговора'}
 function all_(s){document.querySelectorAll('.task').forEach(function(t){var a=t.querySelector('.ans'),b=t.querySelector('button');a.classList.toggle('on',!!s);b.textContent=s?'Скрий отговора':'Покажи отговора'})}
