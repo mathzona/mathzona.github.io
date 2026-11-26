@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Нули на полиноми – урок за 11 клас</title>
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--ink:#1d2433;--mut:#5b6578;--acc:#1f5fbf;--acc2:#e8f0fc;--ok:#1b7f4b;--okb:#e3f5ea;--bad:#b3261e;--badb:#fbe7e5;--line:#d5dbe6;--ex:#fff8e6;--exl:#e8c872}
+@media (prefers-color-scheme:dark){:root{--bg:#141922;--card:#1c2330;--ink:#e6eaf2;--mut:#9aa5ba;--acc:#7aaeff;--acc2:#22304a;--ok:#6fd49b;--okb:#17352a;--bad:#ff8a80;--badb:#3d1f1d;--line:#34405a;--ex:#2b2716;--exl:#7a6a2c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 Georgia,"Times New Roman",serif}
+main{max-width:1060px;margin:0 auto;padding:20px 16px 40px;position:relative;z-index:1}
+header{padding:28px 0 12px;border-bottom:3px solid var(--acc);text-align:center}
+h1{font-size:2.1rem;margin:0 0 4px;line-height:1.2}
+header p{margin:0;color:var(--mut)}
+h2{font-size:1.45rem;margin:38px 0 10px;color:var(--acc)}
+h3{font-size:1.1rem;margin:20px 0 6px}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 20px 20px;margin-top:22px}
+.def{background:var(--acc2);border-left:5px solid var(--acc);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0}
+.ex{background:var(--ex);border:1px solid var(--exl);padding:10px 14px;border-radius:8px;margin:14px 0}
+.m{font-family:"Cambria Math",Georgia,serif;font-style:italic;white-space:nowrap}
+.c{text-align:center;font-size:1.15rem;margin:10px 0}
+svg{width:100%;max-width:440px;height:auto;display:block;margin:8px auto;background:var(--card);border:1px solid var(--line);border-radius:8px}
+figcaption{text-align:center;color:var(--mut);font-size:.9rem}
+figure{margin:10px 0}
+button{font:inherit;cursor:pointer;border:1px solid var(--acc);background:var(--card);color:var(--acc);border-radius:8px;padding:7px 14px;margin:4px 6px 4px 0}
+button:hover{background:var(--acc2)}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.q{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:14px 0}
+.q p{margin:0 0 8px;font-weight:bold}
+.opt{display:block;width:100%;text-align:left;color:var(--ink);border-color:var(--line)}
+.opt.ok,.tf.ok{background:var(--okb);border-color:var(--ok);color:var(--ok)}
+.opt.bad,.tf.bad{background:var(--badb);border-color:var(--bad);color:var(--bad)}
+.fb{margin-top:6px;font-size:.95rem;display:none}
+.score{font-weight:bold;font-size:1.1rem}
+.sol{display:none;background:var(--acc2);border-radius:8px;padding:10px 14px;margin-top:8px}
+.sol.show{display:block}
+table{border-collapse:collapse;margin:10px auto}
+td,th{border:1px solid var(--line);padding:5px 12px;text-align:center}
+.bg{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none}
+.bg span{position:absolute;bottom:-80px;font-family:"Cambria Math",Georgia,serif;font-style:italic;color:var(--acc);opacity:.13;white-space:nowrap;animation:fl linear infinite}
+@keyframes fl{from{transform:translateY(0) rotate(var(--r0))}to{transform:translateY(-115vh) rotate(var(--r1))}}
+@media (prefers-reduced-motion:reduce){.bg span{animation:none;bottom:auto}}
+footer{position:relative;z-index:1;max-width:1060px;margin:0 auto 30px;padding:0 16px}
+.fi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--acc);border-radius:10px;padding:16px 22px;text-align:center}
+.fi p{margin:4px 0;color:var(--mut);font-size:.95rem}
+.fi .au{color:var(--ink);font-weight:bold;font-size:1.05rem;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.nav{display:flex;justify-content:center;gap:10px;margin:18px 0 0;flex-wrap:wrap}
+.nav button{font-weight:bold;padding:9px 22px;margin:0}
+.nav button.on{background:var(--acc);color:var(--card)}
+.grp{margin-top:26px}
+.grp h3{color:var(--acc);border-bottom:2px solid var(--acc2);padding-bottom:4px}
+.sol.an{background:var(--okb)}
+.tools{text-align:center;margin:14px 0}
+.next{text-align:center;margin:26px 0 0}
+.snav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 14px}
+.snav .sep{display:none}
+.snav a{display:inline-block;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--acc2);color:var(--acc);font:600 14px/1.4 system-ui,"Segoe UI",sans-serif;text-decoration:none}
+.snav a:hover,.snav a:focus-visible{background:var(--acc);border-color:var(--acc);color:var(--card);outline:none}
+@media (max-width:420px){.fi{padding:14px 10px}.snav a{padding:6px 9px}}
+</style>
+</head>
+<body>
+<div class="bg" id="bg" aria-hidden="true"></div>
+<main>
+<header>
+<nav class="snav" aria-label="Главно меню">
+  <a href="../index.html">Начало</a>
+</nav>
+<h1>Нули на полиноми</h1>
+</header>
+<div id="p1">
+
+<section>
+<h2>1. Какво е нула на полином?</h2>
+<p><b>Полином</b> е израз от вида <span class="m">P(x) = aₙxⁿ + … + a₁x + a₀</span>. Например <span class="m">P(x) = x³ − 6x² + 11x − 6</span>.</p>
+<div class="def"><b>Нула (корен)</b> на полинома <span class="m">P(x)</span> е число <span class="m">a</span>, за което <span class="m">P(a) = 0</span>.</div>
+<p>С прости думи: нулата е числото, което като го сложим вместо <span class="m">x</span>, дава резултат 0. Графично това е точката, в която графиката пресича (или докосва) оста <span class="m">Ox</span>.</p>
+<div class="ex"><b>Пример 1.</b> Дали <span class="m">x = 2</span> е нула на <span class="m">P(x) = x² − 5x + 6</span>?<br>
+<span class="m">P(2) = 4 − 10 + 6 = 0</span> ✔ Да. Проверяваме и <span class="m">x = 3</span>: <span class="m">P(3) = 9 − 15 + 6 = 0</span> ✔. Нулите са 2 и 3.</div>
+<figure>
+<svg id="g1" viewBox="0 0 420 240" role="img" aria-label="Графика на параболата x²−5x+6 с нули 2 и 3"></svg>
+<figcaption>Графика на <span class="m">y = x² − 5x + 6</span>. Нулите 2 и 3 са пресечните точки с оста Ox.</figcaption>
+</figure>
+</section>
+
+<section>
+<h2>2. Теорема на Безу</h2>
+<div class="def">Остатъкът при деление на <span class="m">P(x)</span> на <span class="m">(x − a)</span> е равен на <span class="m">P(a)</span>.</div>
+<p><b>Следствие:</b> <span class="m">a</span> е нула на <span class="m">P(x)</span> ⇔ <span class="m">P(x)</span> се дели на <span class="m">(x − a)</span> без остатък, т.е. <span class="m">P(x) = (x − a)·Q(x)</span>.</p>
+<p>Това е ключът към разлагането: щом намерим една нула, „отделяме“ множителя <span class="m">(x − a)</span> и остава полином с по-ниска степен.</p>
+<div class="ex"><b>Пример 2.</b> Остатък при деление на <span class="m">P(x) = x³ + 2x − 5</span> на <span class="m">x − 2</span>.<br>
+Не делим! <span class="m">P(2) = 8 + 4 − 5 = 7</span>. Остатъкът е <b>7</b>.<br>
+Внимание: при <span class="m">x + 3</span> = <span class="m">x − (−3)</span> смятаме <span class="m">P(−3)</span>.</div>
+</section>
+
+<section>
+<h2>3. Как намираме нулите? Рационални нули</h2>
+<div class="def">Нека <span class="m">P(x)</span> има <b>цели коефициенти</b>. Ако несъкратимата дроб <span class="m">p/q</span> е нула, то <b>p дели свободния член</b> <span class="m">a₀</span>, а <b>q дели старшия коефициент</b> <span class="m">aₙ</span>.</div>
+<p>Така получаваме краен списък от „кандидати“, които проверяваме един по един.</p>
+<div class="ex"><b>Пример 3.</b> Решете <span class="m">2x³ − 3x² − 3x + 2 = 0</span>.<br>
+<b>Стъпка 1.</b> Делители на свободния член 2: ±1, ±2. Делители на старшия коефициент 2: ±1, ±2. Кандидати: ±1, ±2, ±½.<br>
+<b>Стъпка 2.</b> Проверка: <span class="m">P(1) = 2 − 3 − 3 + 2 = −2</span> ✘; <span class="m">P(2) = 16 − 12 − 6 + 2 = 0</span> ✔.<br>
+<b>Стъпка 3.</b> Делим на <span class="m">(x − 2)</span> (схема на Хорнер):
+<table><tr><th></th><th>2</th><th>−3</th><th>−3</th><th>2</th></tr><tr><th>2</th><td>2</td><td>1</td><td>−1</td><td>0</td></tr></table>
+Всяко число в долния ред е: горното + 2 · предишното. Остатъкът е 0, а частното е <span class="m">2x² + x − 1</span>.<br>
+<b>Стъпка 4.</b> <span class="m">2x² + x − 1 = (2x − 1)(x + 1)</span>. Следователно <span class="m">P(x) = (x − 2)(2x − 1)(x + 1)</span>.<br>
+<b>Отговор:</b> <span class="m">x = 2, x = ½, x = −1</span>.</div>
+<figure>
+<svg id="g2" viewBox="0 0 420 240" role="img" aria-label="Графика на кубичен полином с три нули 1, 2 и 3"></svg>
+<figcaption><span class="m">y = (x − 1)(x − 2)(x − 3)</span> – три различни нули.</figcaption>
+</figure>
+</section>
+
+<section>
+<h2>4. Кратност на нула</h2>
+<p>Ако <span class="m">P(x) = (x − a)ᵏ · Q(x)</span> и <span class="m">Q(a) ≠ 0</span>, то <span class="m">a</span> е нула с <b>кратност k</b>.</p>
+<ul>
+<li><b>Нечетна кратност</b> (1, 3, …) – графиката <b>пресича</b> оста Ox.</li>
+<li><b>Четна кратност</b> (2, 4, …) – графиката <b>се допира</b> до оста и не я пресича.</li>
+</ul>
+<div class="ex"><b>Пример 4.</b> <span class="m">x³ − 3x² + 4 = (x + 1)(x − 2)²</span>.<br>
+<span class="m">x = −1</span> е проста нула (графиката пресича оста), <span class="m">x = 2</span> е двойна нула (графиката се допира).</div>
+<figure>
+<svg id="g3" viewBox="0 0 420 240" role="img" aria-label="Графика с проста нула −1 и двойна нула 2"></svg>
+<figcaption><span class="m">y = (x + 1)(x − 2)²</span> – при <span class="m">x = 2</span> графиката се допира до оста.</figcaption>
+</figure>
+<div class="def"><b>Запомни:</b> полином от степен <span class="m">n</span> има най-много <span class="m">n</span> реални нули (броени с кратностите им). Полином като <span class="m">x² + 1</span> няма реални нули.</div>
+</section>
+
+<section>
+<h2>5. Кратък тест</h2>
+<p>Избери отговор. Веднага ще видиш дали е верен.</p>
+<div id="test"></div>
+<p class="score" id="tscore"></p>
+</section>
+
+<section>
+<h2>6. Въпроси за проверка – вярно или грешно?</h2>
+<p>Натисни <b>Вярно</b> или <b>Грешно</b> за всяко твърдение.</p>
+<div id="tf"></div>
+</section>
+
+<section>
+<h2>7. Задачи за самостоятелна работа</h2>
+<p>Опитай първо сам. Можеш да видиш само отговора, за да се провериш, или подробното решение.</p>
+<div id="tasks"></div>
+</section>
+</div>
+<div id="p2">
+<section>
+<h2>Упражнение: решаване на задачи за нули на полиноми</h2>
+<p>Тук ще тренираш всичко от урока. Задачите са подредени от по-леки към по-трудни. Опитай да решиш всяка сама/сам и чак тогава натисни <b>Покажи решението</b>.</p>
+<div class="def"><b>Алгоритъм за намиране на нулите на полином с цели коефициенти:</b><br>
+1. Изброяваме кандидатите <span class="m">p/q</span> (p дели свободния член, q дели старшия коефициент).<br>
+2. Проверяваме кандидатите с <span class="m">P(a)</span>, докато намерим нула.<br>
+3. Делим на <span class="m">(x − a)</span> със схемата на Хорнер и получаваме полином с по-ниска степен.<br>
+4. Повтаряме, докато остане квадратен тричлен, който решаваме с дискриминантата.<br>
+5. Записваме разлагането и нулите с кратностите им.</div>
+<div class="tools"><button id="allon">Покажи всички подробни решения</button><button id="alloff">Скрий всички отговори и решения</button></div>
+</section>
+<section id="ex"></section>
+</div>
+<footer><div class="fi">
+<nav class="snav" aria-label="Меню в долната част">
+  <a href="../index.html">Начало</a>
+  <span class="sep" aria-hidden="true">·</span>
+  <a href="../8-klas/index.html">8. клас</a>
+  <span class="sep" aria-hidden="true">·</span>
+  <a href="../9-klas/index.html">9. клас</a>
+  <span class="sep" aria-hidden="true">·</span>
+  <a href="../11-klas/index.html">11. клас</a>
+</nav>
+<p><b>Тема:</b> Нули на полиноми · Математика, 11 клас, профилирана подготовка</p>
+
+<p class="au">Даниела Петрова – учител по математика</p>
+</div></footer>
+
+<script>
+var gc=0;
+function gcore(f,xr,yr,roots,pts,shade){
+  var W=420,H=240,p=26,cid='gc'+(++gc);
+  var sx=function(x){return p+(x-xr[0])/(xr[1]-xr[0])*(W-2*p)};
+  var sy=function(y){return H-p-(y-yr[0])/(yr[1]-yr[0])*(H-2*p)};
+  var h='<defs><clipPath id="'+cid+'"><rect x="'+p+'" y="'+p/2+'" width="'+(W-2*p)+'" height="'+(H-1.5*p)+'"/></clipPath></defs>';
+  var y0=sy(0),x0=sx(0),i,x;
+  h+='<g stroke="currentColor" stroke-width="1.2" opacity=".6"><line x1="'+p/2+'" y1="'+y0+'" x2="'+(W-p/2)+'" y2="'+y0+'"/><line x1="'+x0+'" y1="'+p/2+'" x2="'+x0+'" y2="'+(H-p/2)+'"/></g>';
+  for(var t=Math.ceil(xr[0]);t<=xr[1];t++){if(t)h+='<text x="'+sx(t)+'" y="'+(y0+14)+'" font-size="11" text-anchor="middle" fill="currentColor" opacity=".7">'+t+'</text>';}
+  h+='<text x="'+(W-p/2)+'" y="'+(y0-6)+'" font-size="12" text-anchor="end" fill="currentColor">x</text><text x="'+(x0+6)+'" y="'+(p/2+8)+'" font-size="12" fill="currentColor">y</text>';
+  var d='';for(i=0;i<=240;i++){x=xr[0]+(xr[1]-xr[0])*i/240;d+=(i?'L':'M')+sx(x).toFixed(1)+' '+sy(f(x)).toFixed(1)}
+  h+='<path d="'+d+'" fill="none" stroke="#1f5fbf" stroke-width="2.5" clip-path="url(#'+cid+')"/>';
+  if(shade){for(i=0;i<240;i++){x=xr[0]+(xr[1]-xr[0])*(i+.5)/240;if(f(x)>0)h+='<line x1="'+sx(x-(xr[1]-xr[0])/480)+'" y1="'+y0+'" x2="'+sx(x+(xr[1]-xr[0])/480)+'" y2="'+y0+'" stroke="#1b9a5a" stroke-width="6" opacity=".6"/>'}}
+  (roots||[]).forEach(function(r){var v=r.length?r[0]:r,l=r.length?r[1]:r;h+='<circle cx="'+sx(v)+'" cy="'+y0+'" r="5" fill="#d9482b"/><text x="'+sx(v)+'" y="'+(y0-10)+'" font-size="12" text-anchor="middle" font-weight="bold" fill="#d9482b">'+l+'</text>'});
+  (pts||[]).forEach(function(q){var X=sx(q[0]),Y=sy(q[1]),en=X>W-80;h+='<circle cx="'+X+'" cy="'+Y+'" r="5" fill="#1b9a5a"/><text x="'+(en?X-8:X+8)+'" y="'+(Y-8)+'" font-size="12" font-weight="bold" text-anchor="'+(en?'end':'start')+'" fill="#1b9a5a">('+q[0]+'; '+q[1]+')</text>'});
+  return h;
+}
+function plot(id,f,xr,yr,roots){document.getElementById(id).innerHTML=gcore(f,xr,yr,roots)}
+function gsvg(g){
+  if(!g)return '';
+  var c=g[0],f=function(x){var v=0;for(var k=0;k<c.length;k++)v=v*x+c[k];return v};
+  var cap='Графика на полинома от задачата.'+(g[3]&&g[3].length?' Червените точки са нулите.':'')+(g[4]?' Зелената точка показва стойността <span class="m">P(a)</span>, която е остатъкът.':'')+(g[5]?' Зеленото на оста показва къде произведението е положително.':'');
+  return '<figure><svg viewBox="0 0 420 240" role="img" aria-label="Графика към решението">'+gcore(f,g[1],g[2],g[3],g[4],g[5])+'</svg><figcaption>'+cap+'</figcaption></figure>';
+}
+plot('g1',function(x){return x*x-5*x+6},[-1,6],[-3,9],[2,3]);
+plot('g2',function(x){return (x-1)*(x-2)*(x-3)},[0,4],[-4,4],[1,2,3]);
+plot('g3',function(x){return (x+1)*(x-2)*(x-2)},[-2,4],[-3,9],[-1,2]);
+
+(function(){
+  var sy=['x³','P(x)=0','π','√x','∑','f(x)','x²−1','∞','Δ','(x−a)','y=x²','∫','a/b','xⁿ','±','≠0','θ','log x'],bg=document.getElementById('bg');
+  for(var i=0;i<22;i++){
+    var e=document.createElement('span');
+    e.textContent=sy[i%sy.length];
+    e.style.left=(Math.random()*95)+'%';
+    e.style.fontSize=(22+Math.random()*40)+'px';
+    e.style.animationDuration=(40+Math.random()*50)+'s';
+    e.style.animationDelay=(-Math.random()*80)+'s';
+    e.style.setProperty('--r0',(Math.random()*40-20)+'deg');
+    e.style.setProperty('--r1',(Math.random()*80-40)+'deg');
+    e.style.bottom=(i%2?'-80px':(Math.random()*90)+'%');
+    bg.appendChild(e);
+  }
+})();
+var quiz=[
+ {q:'Коя е нула на P(x) = x³ − x² − 4x + 4?',o:['−1','1','3','4'],a:1,e:'P(1) = 1 − 1 − 4 + 4 = 0. Останалите дават P(−1)=6, P(3)=10, P(4)=36.'},
+ {q:'Какъв е остатъкът при деление на x² + 3x + 1 на x − 2?',o:['7','9','11','1'],a:2,e:'По Безу: P(2) = 4 + 6 + 1 = 11.'},
+ {q:'Кое НЕ е кандидат за рационална нула на 2x³ + x − 3?',o:['3/2','1/2','2/3','−3'],a:2,e:'Числителят трябва да дели 3, а знаменателят да дели 2. Числото 2/3 има числител 2, който не дели 3.'},
+ {q:'Каква е кратността на нулата x = 1 за P(x) = (x − 1)²(x + 3)?',o:['1','2','3','0'],a:1,e:'Множителят (x − 1) се среща на втора степен, значи кратността е 2.'},
+ {q:'Колко най-много реални нули има полином от пета степен?',o:['3','4','5','6'],a:2,e:'Полином от степен n има най-много n реални нули (с кратностите им).'}
+];
+var tdone=0,tok=0,th='';
+quiz.forEach(function(z,i){
+  th+='<div class="q" id="q'+i+'"><p>'+(i+1)+'. '+z.q+'</p>';
+  z.o.forEach(function(t,j){th+='<button class="opt" data-q="'+i+'" data-o="'+j+'">'+t+'</button>'});
+  th+='<div class="fb" id="fb'+i+'"></div></div>';
+});
+document.getElementById('test').innerHTML=th;
+document.getElementById('test').addEventListener('click',function(e){
+  var b=e.target.closest('.opt');if(!b)return;
+  var i=+b.dataset.q,j=+b.dataset.o,z=quiz[i],box=document.getElementById('q'+i);
+  if(box.dataset.done)return;box.dataset.done=1;tdone++;
+  var bs=box.querySelectorAll('.opt');
+  bs[z.a].classList.add('ok');
+  var fb=document.getElementById('fb'+i);fb.style.display='block';
+  if(j===z.a){tok++;fb.innerHTML='✔ Вярно! '+z.e}else{b.classList.add('bad');fb.innerHTML='✘ Грешно. '+z.e}
+  document.getElementById('tscore').textContent=tdone===quiz.length?'Резултат: '+tok+' от '+quiz.length+' верни отговора.':'Отговорени: '+tdone+' от '+quiz.length;
+});
+
+var tf=[
+ {s:'Ако P(a) = 0, то многочленът P(x) се дели на (x − a).',a:true,e:'Това е следствието от теоремата на Безу.'},
+ {s:'Всеки полином от трета степен има точно три различни реални нули.',a:false,e:'Може да има и кратни нули (напр. (x−1)²(x+2)) или само една реална нула (напр. x³ + x).'},
+ {s:'При двойна нула графиката на полинома се допира до оста Ox.',a:true,e:'Четната кратност означава, че знакът не се сменя, т.е. графиката само се допира.'},
+ {s:'Остатъкът при деление на P(x) на (x + 2) е P(2).',a:false,e:'x + 2 = x − (−2), затова остатъкът е P(−2).'},
+ {s:'Полиномът x² + 1 няма реални нули.',a:true,e:'x² + 1 ≥ 1 за всяко реално x, значи никога не е 0.'},
+ {s:'Ако полином с цели коефициенти има свободен член 5, всяка негова цяла нула е делител на 5.',a:true,e:'Цялата нула е рационална с q = 1, а p трябва да дели свободния член 5. Кандидати: ±1, ±5.'}
+];
+var fh='';
+tf.forEach(function(z,i){
+  fh+='<div class="q" id="t'+i+'"><p>'+(i+1)+'. '+z.s+'</p><button class="tf" data-i="'+i+'" data-v="1">Вярно</button><button class="tf" data-i="'+i+'" data-v="0">Грешно</button><div class="fb" id="tf'+i+'"></div></div>';
+});
+document.getElementById('tf').innerHTML=fh;
+document.getElementById('tf').addEventListener('click',function(e){
+  var b=e.target.closest('.tf');if(!b)return;
+  var i=+b.dataset.i,z=tf[i],ans=b.dataset.v==='1',box=document.getElementById('t'+i);
+  if(box.dataset.done)return;box.dataset.done=1;
+  var ok=ans===z.a;b.classList.add(ok?'ok':'bad');
+  if(!ok){box.querySelector('.tf[data-v="'+(z.a?1:0)+'"]').classList.add('ok')}
+  var fb=document.getElementById('tf'+i);fb.style.display='block';
+  fb.innerHTML=(ok?'✔ Правилно! ':'✘ Не е вярно. Верният отговор е „'+(z.a?'Вярно':'Грешно')+'“. ')+z.e;
+});
+
+var tasks=[
+ {t:'Намерете нулите на <span class="m">P(x) = x² − 5x + 6</span>… всъщност решете <span class="m">x² − 7x + 12 = 0</span>.',s:'Търсим две числа със сбор 7 и произведение 12: това са 3 и 4.<br><span class="m">x² − 7x + 12 = (x − 3)(x − 4)</span>.<br>Проверка: <span class="m">9 − 21 + 12 = 0</span> ✔.<br><b>Отговор:</b> x = 3 и x = 4.'},
+ {t:'Решете <span class="m">x³ − 7x + 6 = 0</span>.',s:'<b>1.</b> Кандидати: делителите на 6, т.е. ±1, ±2, ±3, ±6.<br><b>2.</b> <span class="m">P(1) = 1 − 7 + 6 = 0</span> ✔.<br><b>3.</b> Хорнер за <span class="m">x³ + 0x² − 7x + 6</span> при 1: коефициенти 1, 1, −6, остатък 0. Частно: <span class="m">x² + x − 6</span>.<br><b>4.</b> <span class="m">x² + x − 6 = (x − 2)(x + 3)</span>.<br>Следователно <span class="m">P(x) = (x − 1)(x − 2)(x + 3)</span>.<br><b>Отговор:</b> x = 1, x = 2, x = −3.'},
+ {t:'При каква стойност на <span class="m">m</span> числото 2 е нула на <span class="m">P(x) = x³ − mx² + x − 2</span>?',s:'Условието <span class="m">P(2) = 0</span> дава:<br><span class="m">8 − 4m + 2 − 2 = 0</span><br><span class="m">8 − 4m = 0</span>, откъдето <span class="m">m = 2</span>.<br><b>Отговор:</b> m = 2.'},
+ {t:'Намерете остатъка при деление на <span class="m">P(x) = x⁴ − 3x² + 2x − 5</span> на <span class="m">x + 2</span>.',s:'Записваме <span class="m">x + 2 = x − (−2)</span>, значи остатъкът е <span class="m">P(−2)</span>.<br><span class="m">P(−2) = 16 − 12 − 4 − 5 = −5</span>.<br><b>Отговор:</b> −5.'},
+ {t:'Решете биквадратното уравнение <span class="m">x⁴ − 5x² + 4 = 0</span>.',s:'Полагаме <span class="m">t = x²</span> (t ≥ 0). Получаваме <span class="m">t² − 5t + 4 = 0</span>, т.е. <span class="m">(t − 1)(t − 4) = 0</span>, откъдето t = 1 или t = 4.<br>Ако <span class="m">x² = 1</span>, то x = ±1. Ако <span class="m">x² = 4</span>, то x = ±2.<br><b>Отговор:</b> x = −2, −1, 1, 2.'},
+ {t:'Разложете на множители и намерете нулите (с кратностите им) на <span class="m">P(x) = x³ − 3x² + 4</span>.',s:'<b>1.</b> Кандидати: ±1, ±2, ±4.<br><b>2.</b> <span class="m">P(1) = 2</span> ✘, <span class="m">P(−1) = −1 − 3 + 4 = 0</span> ✔.<br><b>3.</b> Делим на <span class="m">(x + 1)</span>: коефициенти 1, −4, 4, остатък 0. Частно: <span class="m">x² − 4x + 4 = (x − 2)²</span>.<br>Следователно <span class="m">P(x) = (x + 1)(x − 2)²</span>.<br><b>Отговор:</b> x = −1 (проста нула) и x = 2 (двойна нула). Графиката пресича Ox в −1 и се допира до нея в 2.'}
+];
+tasks[0].t='Решете <span class="m">x² − 7x + 12 = 0</span>.';
+var OT='<b>Отговор:</b>';
+var G1=[
+[[1,-7,12],[0,7],[-3,8],[3,4]],
+[[1,0,-7,6],[-4,3],[-8,16],[-3,1,2]],
+[[1,-2,1,-2],[-1,3],[-8,8],[2]],
+[[1,0,-3,2,-5],[-3,3],[-12,12],[],[[-2,-5]]],
+[[1,0,-5,0,4],[-3,3],[-4,10],[-2,-1,1,2]],
+[[1,-3,0,4],[-2,4],[-4,8],[-1,2]]
+];
+var G2=[
+[[1,2,-3,0],[-4,2],[-6,8],[-3,0,1]],
+[[1,4,-5],[-6,2],[-10,8],[-5,1]],
+[[3,-1,-2],[-2,2],[-4,6],[[-2/3,'−⅔'],1]],
+[[1,0,-4,0],[-3,3],[-6,6],[-2,0,2]],
+[[1,0,0,-8],[-2,3],[-10,10],[2]],
+[[1,-2,1,-7],[-2,4],[-15,10],[],[[3,5]]],
+[[2,1,0,0,-5],[-2,2],[-8,12],[],[[-1,-4]]],
+[[1,0,0,1],[-2,2],[-6,8],[-1]],
+[[1,-2,-5,6],[-3,4],[-10,12],[-2,1,3]],
+[[2,3,-8,3],[-4,2],[-12,12],[-3,[.5,'½'],1]],
+[[6,-7,0,1],[-1,1.5],[-2,3],[[-1/3,'−⅓'],[.5,'½'],1]],
+[[1,-1,-7,1,6],[-3,4],[-15,20],[-2,-1,1,3]],
+[[1,1,1,1],[-3,2],[-8,10],[-1]],
+[[1,-6,12,-8],[-1,4],[-10,10],[2]],
+[[1,0,-7,6],[-4,3],[-8,16],[-3,1,2]],
+[[1,-6,11,-6],[0,4],[-4,4],[1,2,3]],
+[[1,2,-2,3],[-3,2],[-6,12],[],[[-1,6]]],
+null,
+[[1,0,-13,0,36],[-4,4],[-12,40],[-3,-2,2,3]],
+[[1,-2,-7,8,12],[-3,4],[-10,30],[-2,-1,2,3]],
+[[1,-2,-3,4,4],[-2,3],[-4,12],[-1,2]],
+[[1,-6,11,-6],[0,4],[-4,4],[1,2,3],null,1]
+,[[1,-2,-1,2],[-2,3],[-5,8],[-1,1,2]],
+[[2,-9,7,6],[-1,4],[-12,14],[[-0.5,'−½'],2,3]],
+[[3,5,-2,0],[-3,1.5],[-6,10],[-2,0,[1/3,'⅓']]],
+[[1,-5,5,5,-6],[-2,4],[-10,20],[-1,1,2,3]],
+[[4,-8,-1,2],[-1.5,2.5],[-8,10],[[-0.5,'−½'],[0.5,'½'],2]],
+[[1,-5,8,-4],[0,4],[-4,6],[1,2]],
+null,
+[[1,-1,-4,4],[-3,3],[-8,10],[-2,1,2]],
+null,
+[[1,-7,16,-12],[0,5],[-12,18],[2,3]],
+null,
+[[1,-2,1,0,0],[-1,2],[-1,4],[0,1]],
+[[1,0,0,0,-1],[-2,2],[-3,8],[-1,1]],
+[[1,0,1,0,1],[-2,2],[-1,8],[]],
+[[1,0,-10,0,9],[-4,4],[-18,18],[-3,-1,1,3]],
+[[1,2,-1,-2,-24],[-4,3],[-30,40],[-3,2]],
+null,
+[[1,-3,-6,8],[-3,5],[-14,14],[-2,1,4]],
+[[1,-4,1,6],[-2,4],[-12,12],[-1,2,3],null,1],
+[[1,1,-5,3],[-4,3],[-6,10],[-3,1]]
+];
+var groups=[
+{h:'А. Проверка на нули и прости уравнения',t:[
+['Намерете всички нули на <span class="m">P(x) = x³ + 2x² − 3x</span>.','Изнасяме общ множител: <span class="m">x(x² + 2x − 3)</span>.<br>Тричленът: <span class="m">x² + 2x − 3 = (x + 3)(x − 1)</span> (числата със сбор 2 и произведение −3 са 3 и −1).<br>Значи <span class="m">P(x) = x(x + 3)(x − 1)</span>.<br><b>Отговор:</b> x = 0, x = −3, x = 1.'],
+['Решете <span class="m">x² + 4x − 5 = 0</span>.','Търсим числа със сбор 4 и произведение −5: това са 5 и −1.<br><span class="m">(x + 5)(x − 1) = 0</span>.<br><b>Отговор:</b> x = −5, x = 1.'],
+['Решете <span class="m">3x² − x − 2 = 0</span>.','<span class="m">D = (−1)² − 4·3·(−2) = 1 + 24 = 25</span>, <span class="m">√D = 5</span>.<br><span class="m">x = (1 ± 5) / 6</span>, откъдето <span class="m">x₁ = 1</span> и <span class="m">x₂ = −4/6 = −2/3</span>.<br><b>Отговор:</b> x = 1, x = −2/3.'],
+['Решете <span class="m">x³ − 4x = 0</span>.','Изнасяме x: <span class="m">x(x² − 4) = 0</span>.<br>Разликата на квадрати: <span class="m">x(x − 2)(x + 2) = 0</span>.<br><b>Отговор:</b> x = 0, x = 2, x = −2.'],
+['Намерете реалните нули на <span class="m">x³ − 8</span>.','Разлика на кубове: <span class="m">x³ − 8 = (x − 2)(x² + 2x + 4)</span>.<br>За тричлена: <span class="m">D = 4 − 16 = −12 &lt; 0</span>, няма реални корени.<br><b>Отговор:</b> единствената реална нула е x = 2.']]},
+{h:'Б. Теорема на Безу и остатъци',t:[
+['Намерете остатъка при деление на <span class="m">P(x) = x³ − 2x² + x − 7</span> на <span class="m">x − 3</span>.','По Безу остатъкът е <span class="m">P(3)</span>.<br><span class="m">P(3) = 27 − 18 + 3 − 7 = 5</span>.<br><b>Отговор:</b> 5.'],
+['Намерете остатъка при деление на <span class="m">P(x) = 2x⁴ + x³ − 5</span> на <span class="m">x + 1</span>.','<span class="m">x + 1 = x − (−1)</span>, значи остатъкът е <span class="m">P(−1)</span>.<br><span class="m">P(−1) = 2·1 + (−1) − 5 = 2 − 1 − 5 = −4</span>.<br><b>Отговор:</b> −4.'],
+['Докажете, че <span class="m">x³ + 1</span> се дели на <span class="m">x + 1</span>, и намерете частното.','<span class="m">P(−1) = −1 + 1 = 0</span>, значи делението е без остатък.<br>Хорнер при −1 за коефициенти 1, 0, 0, 1:<br>1 → 1; 0 + (−1)·1 = −1; 0 + (−1)·(−1) = 1; 1 + (−1)·1 = 0.<br>Частното е <span class="m">x² − x + 1</span>.<br><b>Отговор:</b> <span class="m">x³ + 1 = (x + 1)(x² − x + 1)</span>.']]},
+{h:'В. Рационални нули и разлагане',t:[
+['Решете <span class="m">x³ − 2x² − 5x + 6 = 0</span>.','<b>1.</b> Кандидати: ±1, ±2, ±3, ±6.<br><b>2.</b> <span class="m">P(1) = 1 − 2 − 5 + 6 = 0</span> ✔.<br><b>3.</b> Хорнер при 1: коефициенти 1, −1, −6, остатък 0. Частно: <span class="m">x² − x − 6</span>.<br><b>4.</b> <span class="m">x² − x − 6 = (x − 3)(x + 2)</span>.<br><b>Отговор:</b> x = 1, x = 3, x = −2.'],
+['Решете <span class="m">2x³ + 3x² − 8x + 3 = 0</span>.','<b>1.</b> Кандидати: ±1, ±3, ±½, ±3/2.<br><b>2.</b> <span class="m">P(1) = 2 + 3 − 8 + 3 = 0</span> ✔.<br><b>3.</b> Хорнер при 1: коефициенти 2, 5, −3, остатък 0. Частно: <span class="m">2x² + 5x − 3</span>.<br><b>4.</b> <span class="m">2x² + 5x − 3 = (2x − 1)(x + 3)</span>.<br><b>Отговор:</b> x = 1, x = ½, x = −3.'],
+['Решете <span class="m">6x³ − 7x² + 1 = 0</span>.','<b>1.</b> Кандидати: ±1, ±½, ±⅓, ±⅙.<br><b>2.</b> <span class="m">P(1) = 6 − 7 + 1 = 0</span> ✔.<br><b>3.</b> Хорнер при 1: коефициенти 6, −1, −1, остатък 0. Частно: <span class="m">6x² − x − 1</span>.<br><b>4.</b> <span class="m">6x² − x − 1 = (3x + 1)(2x − 1)</span>.<br><b>Отговор:</b> x = 1, x = ½, x = −⅓.'],
+['Решете <span class="m">x⁴ − x³ − 7x² + x + 6 = 0</span>.','<b>1.</b> Кандидати: ±1, ±2, ±3, ±6.<br><b>2.</b> <span class="m">P(1) = 1 − 1 − 7 + 1 + 6 = 0</span> ✔.<br><b>3.</b> Хорнер при 1: коефициенти 1, 0, −7, −6, остатък 0. Частно: <span class="m">x³ − 7x − 6</span>.<br><b>4.</b> За новия полином <span class="m">Q(−1) = −1 + 7 − 6 = 0</span> ✔. Хорнер при −1 за 1, 0, −7, −6: получаваме 1, −1, −6, остатък 0. Частно: <span class="m">x² − x − 6 = (x − 3)(x + 2)</span>.<br>Следователно <span class="m">P(x) = (x − 1)(x + 1)(x − 3)(x + 2)</span>.<br><b>Отговор:</b> x = 1, x = −1, x = 3, x = −2.'],
+['Решете в реалните числа <span class="m">x³ + x² + x + 1 = 0</span>.','Групираме: <span class="m">x²(x + 1) + (x + 1) = (x + 1)(x² + 1)</span>.<br><span class="m">x² + 1 &gt; 0</span> за всяко x, затова остава <span class="m">x + 1 = 0</span>.<br><b>Отговор:</b> x = −1.'],
+['Разложете на множители <span class="m">x³ − 6x² + 12x − 8</span>.','Свободният член е −8, пробваме делители: <span class="m">P(2) = 8 − 24 + 24 − 8 = 0</span> ✔.<br>Хорнер при 2: коефициенти 1, −4, 4, остатък 0. Частно: <span class="m">x² − 4x + 4 = (x − 2)²</span>.<br>Значи <span class="m">P(x) = (x − 2)³</span> (формулата за куб на разлика).<br><b>Отговор:</b> x = 2 е нула с кратност 3.']]},
+{h:'Г. Задачи с параметри',t:[
+['При каква стойност на <span class="m">m</span> числото 2 е нула на <span class="m">P(x) = x³ − mx + 6</span>?','Условие: <span class="m">P(2) = 0</span>.<br><span class="m">8 − 2m + 6 = 0</span>, т.е. <span class="m">14 − 2m = 0</span>, откъдето <span class="m">m = 7</span>.<br><b>Отговор:</b> m = 7.'],
+['Намерете <span class="m">a</span> и <span class="m">b</span>, така че <span class="m">P(x) = x³ + ax² + bx − 6</span> да има нули 1 и 2. Намерете третата нула.','<span class="m">P(1) = 0</span>: <span class="m">1 + a + b − 6 = 0</span>, т.е. <span class="m">a + b = 5</span>.<br><span class="m">P(2) = 0</span>: <span class="m">8 + 4a + 2b − 6 = 0</span>, т.е. <span class="m">2a + b = −1</span>.<br>Изваждаме първото от второто: <span class="m">a = −6</span>, тогава <span class="m">b = 11</span>.<br>Полиномът е <span class="m">x³ − 6x² + 11x − 6</span>. Сборът на нулите е 6 (минус коефициента пред x²), значи третата нула е <span class="m">6 − 1 − 2 = 3</span>.<br><b>Отговор:</b> a = −6, b = 11, третата нула е 3.'],
+['Остатъкът при деление на <span class="m">P(x) = x³ + mx² − 2x + 3</span> на <span class="m">x + 1</span> е 6. Намерете <span class="m">m</span>.','Остатъкът е <span class="m">P(−1)</span>.<br><span class="m">P(−1) = −1 + m + 2 + 3 = m + 4</span>.<br>От <span class="m">m + 4 = 6</span> получаваме <span class="m">m = 2</span>.<br><b>Отговор:</b> m = 2.']]},
+{h:'Д. По-трудни задачи',t:[
+['Полиномът <span class="m">P(x)</span> дава остатък 3 при деление на <span class="m">x − 1</span> и остатък 5 при деление на <span class="m">x − 2</span>. Намерете остатъка при деление на <span class="m">(x − 1)(x − 2)</span>.','Делителят е от втора степен, значи остатъкът е от вида <span class="m">R(x) = ax + b</span> и <span class="m">P(x) = (x − 1)(x − 2)Q(x) + ax + b</span>.<br>При x = 1: <span class="m">P(1) = a + b = 3</span>. При x = 2: <span class="m">P(2) = 2a + b = 5</span>.<br>Изваждаме: <span class="m">a = 2</span>, тогава <span class="m">b = 1</span>.<br><b>Отговор:</b> <span class="m">R(x) = 2x + 1</span>.'],
+['Решете <span class="m">x⁴ − 13x² + 36 = 0</span>.','Полагаме <span class="m">t = x²</span>, <span class="m">t ≥ 0</span>: <span class="m">t² − 13t + 36 = 0</span>.<br><span class="m">D = 169 − 144 = 25</span>, <span class="m">t = (13 ± 5)/2</span>, т.е. t = 9 или t = 4.<br>От <span class="m">x² = 9</span> следва x = ±3, от <span class="m">x² = 4</span> следва x = ±2.<br><b>Отговор:</b> x = −3, −2, 2, 3.'],
+['Решете <span class="m">(x² − x)² − 8(x² − x) + 12 = 0</span>.','Полагаме <span class="m">t = x² − x</span>: <span class="m">t² − 8t + 12 = 0</span>, т.е. <span class="m">(t − 2)(t − 6) = 0</span>.<br>Ако <span class="m">t = 2</span>: <span class="m">x² − x − 2 = 0</span>, т.е. <span class="m">(x − 2)(x + 1) = 0</span>, x = 2 или x = −1.<br>Ако <span class="m">t = 6</span>: <span class="m">x² − x − 6 = 0</span>, т.е. <span class="m">(x − 3)(x + 2) = 0</span>, x = 3 или x = −2.<br><b>Отговор:</b> x = −2, −1, 2, 3.'],
+['Намерете нулите и кратностите им за <span class="m">P(x) = x⁴ − 2x³ − 3x² + 4x + 4</span>.','<b>1.</b> Кандидати: ±1, ±2, ±4.<br><b>2.</b> <span class="m">P(−1) = 1 + 2 − 3 − 4 + 4 = 0</span> ✔.<br><b>3.</b> Хорнер при −1: коефициенти 1, −3, 0, 4, остатък 0. Частно: <span class="m">x³ − 3x² + 4</span>.<br><b>4.</b> Знаем от урока, че <span class="m">x³ − 3x² + 4 = (x + 1)(x − 2)²</span>.<br>Значи <span class="m">P(x) = (x + 1)²(x − 2)²</span>.<br><b>Отговор:</b> x = −1 (кратност 2) и x = 2 (кратност 2). И в двете точки графиката се допира до оста Ox.'],
+['Решете неравенството <span class="m">(x − 1)(x − 2)(x − 3) &gt; 0</span> с метода на интервалите.','Нулите 1, 2, 3 разделят оста на четири интервала. Всички нули са прости, затова знакът се сменя във всяка от тях.<br>При <span class="m">x &gt; 3</span> всички три множителя са положителни, значи произведението е <b>+</b>. Отляво надясно знаците са: <b>−</b> (x &lt; 1), <b>+</b> (1 &lt; x &lt; 2), <b>−</b> (2 &lt; x &lt; 3), <b>+</b> (x &gt; 3).<br>Търсим „+“.<br><b>Отговор:</b> <span class="m">x ∈ (1; 2) ∪ (3; +∞)</span>.']]}
+,{h:'Е. Още рационални нули и разлагане',t:[
+['Решете <span class="m">x³ − 2x² − x + 2 = 0</span> с групиране.','Групираме: <span class="m">x²(x − 2) − (x − 2) = (x − 2)(x² − 1)</span>.<br>Разликата на квадрати: <span class="m">(x − 2)(x − 1)(x + 1)</span>.<br><b>Отговор:</b> x = −1, x = 1, x = 2.'],
+['Решете <span class="m">2x³ − 9x² + 7x + 6 = 0</span>.','<b>1.</b> Кандидати: ±1, ±2, ±3, ±6, ±½, ±3/2.<br><b>2.</b> <span class="m">P(1) = 6</span> ✘, <span class="m">P(−1) = −12</span> ✘, <span class="m">P(2) = 16 − 36 + 14 + 6 = 0</span> ✔.<br><b>3.</b> Хорнер при 2: коефициенти 2, −9, 7, 6 дават 2, −5, −3, остатък 0. Частно: <span class="m">2x² − 5x − 3</span>.<br><b>4.</b> <span class="m">D = 25 + 24 = 49</span>, <span class="m">x = (5 ± 7)/4</span>, т.е. x = 3 или x = −½. Тричленът е <span class="m">(2x + 1)(x − 3)</span>.<br><b>Отговор:</b> x = 2, x = 3, x = −½.'],
+['Решете <span class="m">3x³ + 5x² − 2x = 0</span>.','Свободният член е 0, затова изнасяме x: <span class="m">x(3x² + 5x − 2) = 0</span>.<br>За тричлена: <span class="m">D = 25 + 24 = 49</span>, <span class="m">x = (−5 ± 7)/6</span>, т.е. x = ⅓ или x = −2.<br><b>Отговор:</b> x = 0, x = ⅓, x = −2.'],
+['Решете <span class="m">x⁴ − 5x³ + 5x² + 5x − 6 = 0</span>.','<b>1.</b> Кандидати: ±1, ±2, ±3, ±6.<br><b>2.</b> <span class="m">P(1) = 1 − 5 + 5 + 5 − 6 = 0</span> ✔. Хорнер при 1: коефициенти 1, −5, 5, 5, −6 дават 1, −4, 1, 6, остатък 0. Частно: <span class="m">x³ − 4x² + x + 6</span>.<br><b>3.</b> За новия полином <span class="m">Q(−1) = −1 − 4 − 1 + 6 = 0</span> ✔. Хорнер при −1: 1, −4, 1, 6 дават 1, −5, 6, остатък 0. Частно: <span class="m">x² − 5x + 6 = (x − 2)(x − 3)</span>.<br>Значи <span class="m">P(x) = (x − 1)(x + 1)(x − 2)(x − 3)</span>.<br><b>Отговор:</b> x = 1, x = −1, x = 2, x = 3.'],
+['Решете <span class="m">4x³ − 8x² − x + 2 = 0</span>.','Групираме: <span class="m">4x²(x − 2) − (x − 2) = (x − 2)(4x² − 1)</span>.<br>Разликата на квадрати: <span class="m">4x² − 1 = (2x − 1)(2x + 1)</span>.<br><b>Отговор:</b> x = 2, x = ½, x = −½.'],
+['Разложете на множители <span class="m">x³ − 5x² + 8x − 4</span> и посочете кратностите на нулите.','Кандидати: ±1, ±2, ±4. <span class="m">P(1) = 1 − 5 + 8 − 4 = 0</span> ✔.<br>Хорнер при 1: коефициенти 1, −5, 8, −4 дават 1, −4, 4, остатък 0. Частно: <span class="m">x² − 4x + 4 = (x − 2)²</span>.<br>Значи <span class="m">P(x) = (x − 1)(x − 2)²</span>.<br><b>Отговор:</b> x = 1 е проста нула, x = 2 е двойна нула.'],
+['Докажете, че уравнението <span class="m">x³ − 3x + 1 = 0</span> няма рационални корени.','Уравнението е нормирано, затова евентуалните рационални корени са цели делители на свободния член 1, т.е. ±1.<br><span class="m">P(1) = 1 − 3 + 1 = −1 ≠ 0</span> и <span class="m">P(−1) = −1 + 3 + 1 = 3 ≠ 0</span>.<br><b>Отговор:</b> нито един кандидат не е корен, значи няма рационални корени.']]},
+{h:'Ж. Параметри, остатъци и теорема на Безу',t:[
+['При каква стойност на <span class="m">m</span> полиномът <span class="m">P(x) = x³ + mx² − 4x + 4</span> се дели на <span class="m">x − 2</span>? За тази стойност намерете всички нули.','Делимост на <span class="m">(x − 2)</span> означава <span class="m">P(2) = 0</span>: <span class="m">8 + 4m − 8 + 4 = 0</span>, т.е. <span class="m">4m + 4 = 0</span>, откъдето <span class="m">m = −1</span>.<br>Тогава <span class="m">P(x) = x³ − x² − 4x + 4 = x²(x − 1) − 4(x − 1) = (x − 1)(x² − 4)</span>, т.е. <span class="m">(x − 1)(x − 2)(x + 2)</span>.<br><b>Отговор:</b> m = −1; нулите са x = 1, x = 2, x = −2.'],
+['Остатъкът при деление на <span class="m">P(x) = x³ + ax + b</span> на <span class="m">x − 1</span> е 4, а при деление на <span class="m">x + 2</span> е −2. Намерете <span class="m">a</span> и <span class="m">b</span>.','По Безу: <span class="m">P(1) = 4</span>, т.е. <span class="m">1 + a + b = 4</span> и <span class="m">a + b = 3</span>.<br>Освен това <span class="m">P(−2) = −2</span>, т.е. <span class="m">−8 − 2a + b = −2</span> и <span class="m">−2a + b = 6</span>.<br>Изваждаме второто от първото: <span class="m">3a = −3</span>, откъдето <span class="m">a = −1</span> и <span class="m">b = 4</span>.<br>Проверка: <span class="m">P(1) = 1 − 1 + 4 = 4</span> ✔, <span class="m">P(−2) = −8 + 2 + 4 = −2</span> ✔.<br><b>Отговор:</b> a = −1, b = 4.'],
+['Числото 3 е нула на <span class="m">P(x) = x³ − 7x² + kx − 12</span>. Намерете <span class="m">k</span> и другите нули.','<span class="m">P(3) = 0</span>: <span class="m">27 − 63 + 3k − 12 = 0</span>, т.е. <span class="m">3k = 48</span> и <span class="m">k = 16</span>.<br>Полиномът е <span class="m">x³ − 7x² + 16x − 12</span>. Хорнер при 3: коефициенти 1, −7, 16, −12 дават 1, −4, 4, остатък 0. Частно: <span class="m">x² − 4x + 4 = (x − 2)²</span>.<br>Значи <span class="m">P(x) = (x − 3)(x − 2)²</span>.<br><b>Отговор:</b> k = 16; нулите са x = 3 и x = 2 (двойна).'],
+['Полиномът <span class="m">P(x)</span> дава остатък 2 при деление на <span class="m">x − 1</span> и остатък −4 при деление на <span class="m">x + 1</span>. Намерете остатъка при деление на <span class="m">x² − 1</span>.','Делителят е от втора степен, значи остатъкът е <span class="m">R(x) = ax + b</span> и <span class="m">P(x) = (x² − 1)Q(x) + ax + b</span>.<br>При x = 1: <span class="m">P(1) = a + b = 2</span>. При x = −1: <span class="m">P(−1) = −a + b = −4</span>.<br>Събираме: <span class="m">2b = −2</span>, откъдето <span class="m">b = −1</span> и <span class="m">a = 3</span>.<br><b>Отговор:</b> <span class="m">R(x) = 3x − 1</span>.']]},
+{h:'З. Кратност, биквадратни уравнения и смяна на променливата',t:[
+['Намерете нулите и кратностите им за <span class="m">P(x) = x⁴ − 2x³ + x²</span>.','Изнасяме общия множител: <span class="m">x²(x² − 2x + 1) = x²(x − 1)²</span>.<br><b>Отговор:</b> x = 0 (кратност 2) и x = 1 (кратност 2). И в двете точки графиката се допира до оста Ox.'],
+['Разложете на множители <span class="m">x⁴ − 1</span> и намерете реалните му нули.','Разлика на квадрати: <span class="m">x⁴ − 1 = (x² − 1)(x² + 1) = (x − 1)(x + 1)(x² + 1)</span>.<br>Тричленът <span class="m">x² + 1 &gt; 0</span> за всяко x и не дава реални нули.<br><b>Отговор:</b> реалните нули са x = −1 и x = 1.'],
+['Докажете, че <span class="m">x⁴ + x² + 1</span> няма реални нули.','За всяко реално x имаме <span class="m">x⁴ ≥ 0</span> и <span class="m">x² ≥ 0</span>, следователно <span class="m">x⁴ + x² + 1 ≥ 1 &gt; 0</span>.<br><b>Отговор:</b> полиномът е винаги положителен, значи няма реални нули.'],
+['Решете <span class="m">x⁴ − 10x² + 9 = 0</span>.','Полагаме <span class="m">t = x²</span>, <span class="m">t ≥ 0</span>: <span class="m">t² − 10t + 9 = 0</span>, т.е. <span class="m">(t − 1)(t − 9) = 0</span>, откъдето t = 1 или t = 9.<br>От <span class="m">x² = 1</span> следва x = ±1, от <span class="m">x² = 9</span> следва x = ±3.<br><b>Отговор:</b> x = −3, −1, 1, 3.'],
+['Решете <span class="m">(x² + x)² − 2(x² + x) − 24 = 0</span>.','Полагаме <span class="m">t = x² + x</span>: <span class="m">t² − 2t − 24 = 0</span>. <span class="m">D = 4 + 96 = 100</span>, <span class="m">t = (2 ± 10)/2</span>, т.е. t = 6 или t = −4.<br>Ако <span class="m">t = 6</span>: <span class="m">x² + x − 6 = 0</span>, т.е. <span class="m">(x + 3)(x − 2) = 0</span>, x = −3 или x = 2.<br>Ако <span class="m">t = −4</span>: <span class="m">x² + x + 4 = 0</span>, <span class="m">D = 1 − 16 &lt; 0</span>, няма реални корени.<br><b>Отговор:</b> x = −3, x = 2.'],
+['Решете в реалните числа <span class="m">x⁶ − 7x³ − 8 = 0</span>.','Полагаме <span class="m">t = x³</span>: <span class="m">t² − 7t − 8 = 0</span>, т.е. <span class="m">(t − 8)(t + 1) = 0</span>, откъдето t = 8 или t = −1.<br>От <span class="m">x³ = 8</span> следва x = 2, а от <span class="m">x³ = −1</span> следва x = −1.<br><b>Отговор:</b> x = −1, x = 2.']]},
+{h:'И. Неравенства по метода на интервалите',t:[
+['Решете неравенството <span class="m">(x + 2)(x − 1)(x − 4) ≤ 0</span>.','Нулите −2, 1 и 4 са прости, затова знакът се сменя във всяка от тях.<br>При <span class="m">x &gt; 4</span> всички множители са положителни, значи произведението е <b>+</b>. Отдясно наляво знаците са: <b>+</b> (x &gt; 4), <b>−</b> (1 &lt; x &lt; 4), <b>+</b> (−2 &lt; x &lt; 1), <b>−</b> (x &lt; −2).<br>Търсим „−“ и нулите (неравенството е нестрого).<br><b>Отговор:</b> <span class="m">x ∈ (−∞; −2] ∪ [1; 4]</span>.'],
+['Решете неравенството <span class="m">x³ − 4x² + x + 6 &gt; 0</span>.','Разлагаме: кандидати ±1, ±2, ±3, ±6. <span class="m">P(−1) = −1 − 4 − 1 + 6 = 0</span> ✔. Хорнер при −1: 1, −4, 1, 6 дават 1, −5, 6, остатък 0. Частно: <span class="m">x² − 5x + 6 = (x − 2)(x − 3)</span>.<br>Значи <span class="m">P(x) = (x + 1)(x − 2)(x − 3)</span>, а нулите −1, 2 и 3 са прости.<br>Знаците отдясно наляво: <b>+</b> (x &gt; 3), <b>−</b> (2 &lt; x &lt; 3), <b>+</b> (−1 &lt; x &lt; 2), <b>−</b> (x &lt; −1).<br>Търсим „+“ (строго неравенство).<br><b>Отговор:</b> <span class="m">x ∈ (−1; 2) ∪ (3; +∞)</span>.'],
+['Решете неравенството <span class="m">(x − 1)²(x + 3) ≥ 0</span>.','Нулите са x = 1 (двойна) и x = −3 (проста). Двойната нула не сменя знака.<br>Множителят <span class="m">(x − 1)² ≥ 0</span> за всяко x, затова знакът на произведението се определя от <span class="m">x + 3</span>, освен в точката x = 1, където произведението е 0.<br>При <span class="m">x &gt; −3</span> то е ≥ 0 (в x = 1 е равно на 0), при <span class="m">x = −3</span> е 0, а при <span class="m">x &lt; −3</span> е отрицателно.<br><b>Отговор:</b> <span class="m">x ∈ [−3; +∞)</span>.']]}
+];
+var eh='',en=0;
+groups.forEach(function(g){
+  eh+='<div class="grp"><h3>'+g.h+'</h3>';
+  g.t.forEach(function(z){en++;
+    eh+='<div class="q"><p>Задача '+en+'. '+z[0]+'</p>'+btns('e',en,z[1],G2[en-1])+'</div>';
+  });
+  eh+='</div>';
+});
+document.getElementById('ex').innerHTML+=eh;
+function ans(t){var k=t.indexOf(OT);return k<0?t:t.slice(k+OT.length).replace(/^\s+/,'')}
+function btns(p,i,t,g){
+  return '<button class="ba" data-t="a'+p+i+'">Покажи отговора</button><button class="bs" data-t="s'+p+i+'">Подробно решение</button>'+
+  '<div class="sol an" id="a'+p+i+'">'+OT+' '+ans(t)+'</div><div class="sol" id="s'+p+i+'"><b>Подробно решение.</b><br>'+t+gsvg(g)+'</div>';
+}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.ba,.bs');if(!b)return;
+  var on=document.getElementById(b.dataset.t).classList.toggle('show');
+  var ba=b.classList.contains('ba');
+  b.textContent=on?(ba?'Скрий отговора':'Скрий решението'):(ba?'Покажи отговора':'Подробно решение');
+});
+function all(on){document.querySelectorAll('#ex .sol').forEach(function(d){d.classList.toggle('show',on&&!d.classList.contains('an'))});
+  document.querySelectorAll('#ex .ba').forEach(function(x){x.textContent='Покажи отговора'});
+  document.querySelectorAll('#ex .bs').forEach(function(x){x.textContent=on?'Скрий решението':'Подробно решение'})}
+document.getElementById('allon').onclick=function(){all(true)};
+document.getElementById('alloff').onclick=function(){all(false)};
+var kh='';
+tasks.forEach(function(z,i){
+  kh+='<div class="q"><p>Задача '+(i+1)+'. '+z.t+'</p>'+btns('t',i,z.s,G1[i])+'</div>';
+});
+document.getElementById('tasks').innerHTML=kh;
+</script>
+</body>
+</html>
