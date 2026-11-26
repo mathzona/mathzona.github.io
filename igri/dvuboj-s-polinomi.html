@@ -125,6 +125,7 @@ sup{font-size:.62em;line-height:0}
  <div class="ebtns">
   <button class="btn" id="pdf">Запази в PDF</button>
   <button class="btn alt hidden" id="share">Изпрати PDF</button>
+  <button class="btn alt hidden" id="teach">Изпрати на учителя</button>
   <button class="btn alt" id="again">Нов двубой</button>
  </div>
  <p id="pmsg" role="status"></p>
@@ -243,6 +244,9 @@ function gen(r){
   return pick(p)(L);
 }
 
+// Връзка към Google Apps Script (уеб приложение), което праща PDF-а на учителя.
+// Докато е празна, бутонът „Изпрати на учителя“ не се показва.
+const TEACHER_URL='';
 const N=20;
 const G={names:['',''],sc:[0,0],round:0,q:null,phase:'',asker:0,wrong:null,log:[],t0:null};
 const show=id=>['setup','game','end'].forEach(s=>$(s).classList.toggle('hidden',s!==id));
@@ -320,6 +324,7 @@ function finish(){
   buildReport();
   $('pmsg').textContent='';
   $('share').classList.toggle('hidden',!canShareFiles());
+  $('teach').classList.toggle('hidden',!TEACHER_URL);$('teach').disabled=false;
 }
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function buildReport(){
@@ -387,9 +392,28 @@ async function sharePdf(){
 }
 $('pdf').onclick=savePdf;
 $('share').onclick=sharePdf;
+const toB64=blob=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(blob)});
+async function sendTeacher(){
+  const m=$('pmsg'),btn=$('teach');btn.disabled=true;m.textContent='Изпращане на учителя…';
+  try{
+    const pdf=await toB64(await makePdf());
+    const res=await fetch(TEACHER_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({filename:pdfName(),pdf,
+        subject:`Двубой с полиноми: ${nm(0)} ${G.sc[0]} т. – ${nm(1)} ${G.sc[1]} т.`,
+        text:`${nm(0)}: ${G.sc[0]} т.\n${nm(1)}: ${G.sc[1]} т.\n${G.sc[0]===G.sc[1]?'Равен резултат':'Победител: '+nm(G.sc[0]>G.sc[1]?0:1)}\n\nПодробните отговори са в прикачения PDF.`})});
+    const j=await res.json();
+    if(!j.ok)throw new Error(j.error||'грешка');
+    m.textContent='Резултатите са изпратени на учителя ✓';
+    btn.textContent='Изпратено ✓';
+  }catch(e){
+    m.textContent='Изпращането не успя. Проверете интернет връзката и опитайте пак или запазете PDF файла.';
+    btn.disabled=false;
+  }
+}
+$('teach').onclick=sendTeacher;
 $('go').onclick=start;
 $('next').onclick=nextQ;
-$('again').onclick=()=>show('setup');
+$('again').onclick=()=>{$('teach').textContent='Изпрати на учителя';show('setup')};
 </script>
 <script src="../totop.js?v=20261126m" defer></script>
 </body>
